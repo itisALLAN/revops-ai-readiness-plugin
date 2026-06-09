@@ -1,0 +1,20 @@
+{
+  "name": "saascend",
+  "owner": {
+    "name": "SaaScend",
+    "url": "https://www.saascend.com"
+  },
+  "metadata": {
+    "description": "SaaScend's Claude Code plugin marketplace.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "revops-ai-readiness-suite",
+      "source": ".",
+      "description": "Assess and take a first safe step into AI across Customer Success, Sales, Marketing, and RevOps. Actionable, branded deliverables — assessments, drafts, and blueprints only; a human owns every action.",
+      "category": "revops",
+      "keywords": ["revops", "ai-readiness", "sales", "marketing", "customer-success"]
+    }
+  ]
+}

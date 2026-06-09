@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RevOps AI Readiness Suite — SaaScend</title>
+  <meta name="description" content="Get your go-to-market teams AI-ready and take a first safe step into AI. A free Claude Code plugin from SaaScend across Customer Success, Sales, Marketing, and RevOps." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================ HERO + OPT-IN ============================ -->
+  <header class="hero">
+    <div class="wrap">
+      <nav class="nav">
+        <img class="nav__logo" src="assets/SaaScend_FullLogo_white_text.png" alt="SaaScend" />
+        <div class="nav__links">
+          <a href="#inside">What's inside</a>
+          <a href="#how">How it works</a>
+          <a href="#get">Get the plugin</a>
+        </div>
+      </nav>
+
+      <div class="hero__inner">
+        <div class="eyebrow">RevOps AI Readiness Suite · for Claude Code</div>
+        <h1>Get your GTM teams <span class="accent">AI-ready</span> — and take a first safe step.</h1>
+        <p class="hero__sub">
+          A free Claude Code plugin that tells your Customer Success, Sales, Marketing, and
+          RevOps teams exactly what to fix before they switch on AI — then drafts the first safe
+          step for them. Actionable changes, not scores. A human owns every action.
+        </p>
+
+        <!-- Email opt-in. Replace the form action with your provider's endpoint (see site/README.md).
+             The hidden _next field sends successful submissions to the thank-you page.
+             Until a real endpoint is set, a small script below redirects to the thank-you page so
+             the flow works out of the box. -->
+        <div class="optin" id="get">
+          <form class="optin__card" id="optin-form"
+                action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID"
+                method="POST">
+            <input type="hidden" name="_next" value="thank-you.html" />
+            <input type="hidden" name="_subject" value="New RevOps AI Readiness Suite opt-in" />
+            <label class="eyebrow" for="email" style="display:block">Get install access + the getting-started guide</label>
+            <div class="optin__row">
+              <input type="email" id="email" name="email" required
+                     placeholder="you@company.com" autocomplete="email" />
+              <button class="btn btn--cyan" type="submit">Send me the plugin</button>
+            </div>
+            <label class="optin__consent">
+              <input type="checkbox" name="consent" required />
+              <span>Yes, email me install instructions and occasional RevOps + AI-readiness tips from SaaScend. I can unsubscribe anytime.</span>
+            </label>
+            <p class="optin__note">No spam. One click to unsubscribe. We never share your email.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ WHAT'S INSIDE ============================ -->
+  <section class="section" id="inside">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="eyebrow" style="justify-content:center">Four teams, one readiness model</div>
+        <h2>25 tools that find what's blocking AI — and fix the path</h2>
+        <p>Each tool turns your real data into a branded deliverable and machine-readable output.
+           RevOps is the keystone: it synthesizes the other three teams into one plan.</p>
+      </div>
+      <div class="grid grid--4">
+        <div class="card">
+          <div class="eyebrow">Customer Success</div>
+          <h3>Ground it before you automate</h3>
+          <p>Audit KB retrieval-readiness, map real intents and safe scope, and draft cited replies — flagging exactly what your knowledge base can't answer yet.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Sales</div>
+          <h3>Give the AI something to trust</h3>
+          <p>Check stage and qualification hygiene, pipeline reality, and capture coverage — then turn a call transcript into a drafted deal update.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Marketing</div>
+          <h3>Stay on-brand, stay compliant</h3>
+          <p>Codify your brand voice, catch risky claims and voice drift, check consent readiness, and draft the first safe on-brand content.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">RevOps · keystone</div>
+          <h3>Trace symptoms to root causes</h3>
+          <p>Reconcile cross-team definitions, fix handoff integrity, design the governance control-plane, and synthesize one org-wide AI-readiness roadmap.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ HOW IT WORKS ============================ -->
+  <section class="section section--ice" id="how">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="eyebrow" style="justify-content:center">How it works</div>
+        <h2>Conversational. No terminal. No credentials.</h2>
+        <p>Operated inside the Claude app by a RevOps lead or a SaaScend consultant. Inputs are
+           file uploads, Google Drive, and public URLs — nothing else.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="step">
+          <div class="step__num">1</div>
+          <div>
+            <h3>Bring your data</h3>
+            <p>Upload a CSV export, point at KB or blog URLs, or drop in a call transcript.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <div>
+            <h3>Run a tool</h3>
+            <p>Ask Claude by name, or use <code>/readiness</code>, <code>/activate</code>, and <code>/roadmap</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">3</div>
+          <div>
+            <h3>Act on the deliverable</h3>
+            <p>Get a branded report of exact changes plus structured output the next tool can read. You own every action.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CTA ============================ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="cta">
+        <h2>Ready to find your first safe step?</h2>
+        <p>Drop your email and we'll send install access and a getting-started guide.</p>
+        <a class="btn btn--cyan" href="#get">Get the plugin</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="footer">
+    <div class="wrap">
+      <img class="footer__logo" src="assets/SaaScend_FullLogo_white_text.png" alt="SaaScend" />
+      <p>The RevOps AI Readiness Suite produces assessments, drafts, and blueprints only — it never
+         provisions or deploys an AI agent, and a human owns every action. Compliance content is
+         guidance, not legal advice.</p>
+      <p>© SaaScend · <a href="https://www.saascend.com">saascend.com</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Demo fallback: until a real form endpoint is configured, just route to the
+    // thank-you page on submit so the opt-in flow works end to end.
+    (function () {
+      var form = document.getElementById('optin-form');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        if (form.getAttribute('action').indexOf('REPLACE_WITH_YOUR_FORM_ID') !== -1) {
+          e.preventDefault();
+          window.location.href = 'thank-you.html';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

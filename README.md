@@ -12,6 +12,27 @@ users.
 > produces an **assessment, blueprint, draft, or recommendation** — and a human owns every
 > action. Activation tools draft and propose; they never send or write to any system.
 
+## Install
+
+Inside Claude Code, add the SaaScend marketplace, then install the suite:
+
+```
+/plugin marketplace add itisALLAN/revops-ai-readiness-plugin
+/plugin install revops-ai-readiness-suite@saascend
+```
+
+That's it — the 25 skills and the `/readiness`, `/activate`, and `/roadmap` commands are now
+available. (Prefer a menu? Run `/plugin`, open **Discover**, and install
+*RevOps AI Readiness Suite* from there.)
+
+**Requirements:** Claude Code with plugins enabled, and `python3` on your PATH (the renderer
+uses only the standard library). No CRM/MAP credentials, OAuth, or API keys — inputs are file
+uploads, Google Drive, and public URLs via native Claude connectors.
+
+**Where to begin:** run `/readiness` and pick a team, or `/activate brand-codex` to produce a
+quick first artifact. Once a few team tools have run, `/roadmap` synthesizes everything into one
+org-wide plan.
+
 ## What you get from every tool
 
 Two artifacts, from one source of truth (so they can't drift):

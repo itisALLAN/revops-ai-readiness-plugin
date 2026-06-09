@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>You're in — install the RevOps AI Readiness Suite · SaaScend</title>
+  <meta name="description" content="Thanks for opting in. Install the RevOps AI Readiness Suite in Claude Code and run your first tool." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================ HERO ============================ -->
+  <header class="hero">
+    <div class="wrap">
+      <nav class="nav">
+        <a href="index.html"><img class="nav__logo" src="assets/SaaScend_FullLogo_white_text.png" alt="SaaScend" /></a>
+        <div class="nav__links">
+          <a href="index.html">Home</a>
+          <a href="https://www.saascend.com">saascend.com</a>
+        </div>
+      </nav>
+      <div class="hero__inner">
+        <div class="confirm-badge"><span class="check"></span> You're on the list</div>
+        <h1>You're in. Let's get you <span class="accent">installed.</span></h1>
+        <p class="hero__sub">
+          Check your inbox for the getting-started guide — meanwhile, you can install the suite in
+          Claude Code right now. It takes about thirty seconds.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ INSTALL STEPS ============================ -->
+  <section class="section">
+    <div class="wrap narrow">
+      <div class="eyebrow">Install in Claude Code</div>
+      <h2>Two commands</h2>
+      <p class="muted" style="margin-top:8px">Run these inside Claude Code. The first adds SaaScend's plugin marketplace; the second installs the suite.</p>
+
+      <div class="code" style="margin:24px 0">
+<span class="cmt"># 1 — add the SaaScend marketplace</span>
+<span class="cmd">/plugin marketplace add itisALLAN/revops-ai-readiness-plugin</span>
+
+<span class="cmt"># 2 — install the suite</span>
+<span class="cmd">/plugin install revops-ai-readiness-suite@saascend</span>
+      </div>
+
+      <p>Prefer a menu? Run <code>/plugin</code>, open the <b>Discover</b> tab, and install
+        <b>RevOps AI Readiness Suite</b> from there. Either way, the 25 skills and the
+        <code>/readiness</code>, <code>/activate</code>, and <code>/roadmap</code> commands
+        become available immediately.</p>
+
+      <h3 style="margin-top:36px">Before you start — two requirements</h3>
+      <ul class="pill-list">
+        <li><b>Claude Code with plugins enabled.</b> Desktop, CLI, or IDE — any current Claude Code.</li>
+        <li><b><code>python3</code> on your PATH.</b> The deliverable renderer uses only the Python standard library — nothing to <code>pip install</code>.</li>
+        <li><b>No credentials.</b> No CRM/MAP logins, OAuth, or API keys. Inputs are file uploads, Google Drive, and public URLs via native Claude connectors.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ WHERE TO BEGIN ============================ -->
+  <section class="section section--ice">
+    <div class="wrap narrow">
+      <div class="eyebrow">Where to begin</div>
+      <h2>Your first ten minutes</h2>
+      <p class="muted" style="margin-top:8px">Pick the path that matches what you have on hand. You can run everything on built-in sample data first if you'd like to see the output shape.</p>
+
+      <div class="grid grid--3" style="margin-top:32px">
+        <div class="card">
+          <div class="eyebrow">Fastest win</div>
+          <h3>Codify your brand</h3>
+          <p>Run <code>/activate brand-codex</code> with a few blog URLs. You'll get a reusable brand codex other tools build on — a quick, satisfying first artifact.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">By team</div>
+          <h3>Run a readiness pass</h3>
+          <p>Run <code>/readiness</code> and pick a team. Upload the matching export (cases, opportunities, or leads) and get an actionable fix list.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">The big picture</div>
+          <h3>Synthesize a roadmap</h3>
+          <p>After a few team tools have run, <code>/roadmap</code> traces every symptom back to its root RevOps cause and ranks what to fix first.</p>
+        </div>
+      </div>
+
+      <div class="step" style="margin-top:36px">
+        <div class="step__num">★</div>
+        <div>
+          <h3>Recommended starting move</h3>
+          <p style="margin:0">Run a readiness tool for the team feeling the most AI pressure today (often Customer Success or Sales), act on the top blocking finding, then come back and run <code>/roadmap</code> to see how that fix fits the whole org. Every output tells you exactly what to change — and you own each action.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CTA ============================ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="cta">
+        <h2>Want a guided first step?</h2>
+        <p>SaaScend can run your first readiness pass with you and help act on the findings.</p>
+        <a class="btn btn--cyan" href="https://www.saascend.com">Talk to SaaScend</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="footer">
+    <div class="wrap">
+      <img class="footer__logo" src="assets/SaaScend_FullLogo_white_text.png" alt="SaaScend" />
+      <p>The RevOps AI Readiness Suite produces assessments, drafts, and blueprints only — it never
+         provisions or deploys an AI agent, and a human owns every action. Compliance content is
+         guidance, not legal advice.</p>
+      <p>© SaaScend · <a href="https://www.saascend.com">saascend.com</a> · <a href="index.html">Back to home</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
