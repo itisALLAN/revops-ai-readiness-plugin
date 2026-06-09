@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-claims-compliance-guardrails", "name": "Claims & Compliance Guardrails", "team": "marketing", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/marketing/content-corpus.md", "description": "4 sample posts; one risky post live at /ai-best-in-class" }],
+  "summary": {
+    "headline": "One live post stacks unprovable superlatives, a competitor comparison, and a money-back guarantee — fix before any AI repurposes it.",
+    "narrative": "The post at /ai-best-in-class trips every claims check at once: superlatives with no proof, a comparative claim against 'every competitor', and an outcome guarantee with a refund promise. An AI drafting from this corpus would replicate that exposure at scale. Stand up a substantiation standard, a banned-claims list, and a Legal review path before enabling any AI content step.",
+    "ai_ready": false,
+    "blocking_count": 3,
+    "stats": [
+      { "label": "Posts scanned", "value": "4", "tone": "neutral" },
+      { "label": "Posts with risky claims", "value": "1", "tone": "danger" },
+      { "label": "Risky claims found", "value": "5", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "CLAIM-001",
+      "title": "Unsubstantiated superlatives stacked in a live post",
+      "severity": "high",
+      "category": "Substantiation",
+      "what_we_found": "The post 'The Best-in-Class AI Platform for Revenue Teams' calls the product 'industry-leading, best-in-class' and 'the #1 choice for revenue teams everywhere' with no cited proof.",
+      "why_it_blocks_ai": "An AI repurposing or generating from this corpus will replicate unprovable absolute claims at scale, multiplying regulatory and brand exposure across every draft.",
+      "the_fix": [
+        "Remove or qualify each superlative until a dated, sourced proof artifact exists on file.",
+        "Add 'best-in-class' (without proof), 'industry-leading', and '#1' to the banned-claims deny-list.",
+        "Require a substantiation link on any future superlative before it may appear in a draft."
+      ],
+      "affected": ["https://blog.example.com/ai-best-in-class"],
+      "evidence": "\"Our industry-leading, best-in-class solution is the #1 choice for revenue teams everywhere.\"",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "CLAIM-002",
+      "title": "Comparative claim against 'every competitor'",
+      "severity": "high",
+      "category": "Comparative advertising",
+      "what_we_found": "The same post asserts 'Unlike every competitor, we never fail' — an absolute comparative claim with no substantiation.",
+      "why_it_blocks_ai": "Comparative claims carry the highest substantiation burden; an AI that echoes them produces market-facing copy that is difficult to defend and easy to challenge.",
+      "the_fix": [
+        "Strike the comparative claim or replace it with a specific, sourced, dated comparison.",
+        "Add comparative patterns ('unlike every competitor', 'never fail') to the banned-claims deny-list.",
+        "Route any future comparative claim through Legal sign-off."
+      ],
+      "affected": ["https://blog.example.com/ai-best-in-class"],
+      "evidence": "\"Unlike every competitor, we never fail.\"",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "CLAIM-003",
+      "title": "Outcome guarantee with a money-back promise",
+      "severity": "critical",
+      "category": "Pricing & guarantees",
+      "what_we_found": "The post promises 'Guaranteed to double your pipeline in 30 days or your money back' — an outcome guarantee tied to a refund.",
+      "why_it_blocks_ai": "An AI that echoes a guarantee creates direct contractual and regulatory exposure; this is the single highest-risk claim in the corpus and must be gated before any AI content step.",
+      "the_fix": [
+        "Remove the guarantee and refund language immediately, pending counsel review.",
+        "Add 'guaranteed', 'double your pipeline', 'money back', and time-bound outcome promises to the banned-claims deny-list.",
+        "Require Legal/Compliance sign-off for any pricing, refund, or outcome-guarantee language, human- or AI-authored."
+      ],
+      "affected": ["https://blog.example.com/ai-best-in-class"],
+      "evidence": "\"Guaranteed to double your pipeline in 30 days or your money back.\"",
+      "owner_role": "Legal / Compliance"
+    },
+    {
+      "id": "CLAIM-004",
+      "title": "No substantiation standard or review path on file",
+      "severity": "high",
+      "category": "Governance",
+      "what_we_found": "There is no documented substantiation standard, banned-claims list, or human review/approval gate any claim must clear before publication.",
+      "why_it_blocks_ai": "Without a review path, an AI-assisted draft can reach market unchecked — the absence of a gate is itself a blocker to safely turning on any AI content step.",
+      "the_fix": [
+        "Publish a substantiation standard: every superlative or comparative claim links to a dated, sourced proof artifact before use.",
+        "Maintain a banned-claims deny-list the content drafter and any AI step check against pre-publication.",
+        "Define a named human review path with Legal sign-off for guarantees, pricing, and comparative claims; log every approval."
+      ],
+      "affected": ["content governance process"],
+      "evidence": "No review-gate or substantiation file referenced anywhere in the corpus.",
+      "owner_role": "Head of Marketing"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": ["Guidance, not legal advice."]
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "cs-case-testset-observability", "name": "Case Test-Set & Observability", "team": "customer-success", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/customer-success/cases.csv", "description": "Case export (resolved + open)", "records": 26 }
+  ],
+  "summary": {
+    "headline": "You have enough resolved cases to seed a cold-start eval set — now assign a named owner and a regression cadence before launch.",
+    "narrative": "Of 26 cases, 22 are Closed with a usable resolution. We built a 5-case cold-start test set from real in-scope questions (password reset, SSO, teammate invites, exports) with their known-good resolutions. The blocker to launch is observability: no one currently owns AI quality monitoring. Assign that owner, define what to monitor, and set a regression cadence before any AI step.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Resolved cases available", "value": "22", "tone": "good" },
+      { "label": "Test cases built", "value": "5", "tone": "neutral" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "OBS-OWNER-001",
+      "title": "Assign a named owner for AI quality monitoring",
+      "severity": "high",
+      "category": "Observability — ownership",
+      "what_we_found": "No single role currently owns monitoring AI answer quality; monitoring is implied but unassigned.",
+      "why_it_blocks_ai": "Unowned monitoring does not happen — regressions and bad answers go unnoticed until a customer complains.",
+      "the_fix": [
+        "Name an accountable owner — recommended: CS Operations Lead (e.g. Dana Reyes) — for AI quality monitoring.",
+        "Give them authority to pause AI self-serve on any intent that regresses.",
+        "Document the owner and escalation path before go-live."
+      ],
+      "affected": ["ai-monitoring-ownership"],
+      "evidence": "No owner assigned in current process.",
+      "owner_role": "CS Operations Lead"
+    },
+    {
+      "id": "OBS-MONITOR-002",
+      "title": "Define what to monitor in production",
+      "severity": "high",
+      "category": "Observability — metrics",
+      "what_we_found": "No agreed monitoring signals exist for a live support AI.",
+      "why_it_blocks_ai": "Without defined signals you cannot tell whether the AI is helping or quietly giving wrong answers.",
+      "the_fix": [
+        "Track containment/handoff rate, retrieval-confidence distribution, and escalation reasons.",
+        "Track customer sentiment on AI-handled cases.",
+        "Flag any answer that contradicts a known-good resolution from the test set for review."
+      ],
+      "affected": ["monitoring-dashboard"],
+      "evidence": "No monitoring signals defined.",
+      "owner_role": "CS Operations Lead"
+    },
+    {
+      "id": "OBS-CADENCE-003",
+      "title": "Set a regression cadence against the cold-start set",
+      "severity": "medium",
+      "category": "Observability — regression",
+      "what_we_found": "There is no schedule for re-evaluating the AI against the known-good test set.",
+      "why_it_blocks_ai": "Prompt, model, or KB changes can silently break previously correct answers if never re-tested.",
+      "the_fix": [
+        "Re-run the cold-start test set weekly and before every prompt or KB change.",
+        "Block shipping any change until the set passes.",
+        "Grow the set as new in-scope intents gain KB coverage."
+      ],
+      "affected": ["regression-suite"],
+      "evidence": "No regression cadence defined.",
+      "owner_role": "CS Operations Lead"
+    }
+  ],
+  "drafts": [
+    {
+      "kind": "cold-start-test-set",
+      "title": "Cold-start evaluation set (from resolved cases)",
+      "content": "| # | Case | Question (as asked) | Known-good resolution |\n|---|---|---|---|\n| 1 | CS-1001 | How do I reset my password? | Use the ‘Forgot password’ link on the sign-in page; a reset email arrives within ~5 minutes. (Self-serve reset link.) |\n| 2 | CS-1002 | SSO login fails with a SAML error. | Cause is a misconfigured IdP certificate; walk the admin through correcting the IdP cert configuration. |\n| 3 | CS-1005 | How do I invite teammates? | Admins invite members from Settings > Members > Invite (roles: Admin, Member, Viewer). |\n| 4 | CS-1022 | Where are my exports stored? | Exports run as background jobs and are retained for 30 days. |\n| 5 | CS-1004 | My export isn’t finishing for a large dataset. | Known backend timeout on large datasets; engineering patched it — retry the export. |\n\nEach row pairs a real customer question with its verified resolution. An AI’s answer is graded against the known-good column.",
+      "grounded_on": ["fixtures/customer-success/cases.csv (Closed cases CS-1001, CS-1002, CS-1005, CS-1022, CS-1004)"],
+      "flags": [
+        "STARTING SET — human-review each known-good resolution before using it to grade an AI.",
+        "Covers in-scope intents only; do not add sensitive intents (billing/security/legal) to this set."
+      ]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Customer Success team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

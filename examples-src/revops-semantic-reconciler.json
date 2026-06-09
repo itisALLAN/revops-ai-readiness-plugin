@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "revops-semantic-reconciler", "name": "Semantic Reconciler", "team": "revops", "kind": "synthesis" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "json-artifact", "ref": "readiness-output/index.json", "description": "All available team tool outputs (definitions harvested)" },
+    { "type": "file", "ref": "mql-report-may.csv", "description": "Marketing MQL report — used to check operational drift", "records": 412 }
+  ],
+  "summary": {
+    "headline": "Marketing and Sales mean different things by 'qualified' — an AI router would mis-route leads until you reconcile it.",
+    "narrative": "Across the team outputs there is one governed term in dispute and five core terms with no single owner. Marketing treats a lead as MQL on score-or-download alone; Sales only calls a deal 'Qualified' once budget and an economic buyer are confirmed. Until these are reconciled into one canonical glossary, any AI that routes leads or triggers a handoff will disagree with itself across teams. The recommended fix separates 'MQL' (a marketing interest signal) from 'Qualified' (a sales-accepted state) with one explicit transition rule.",
+    "stats": [
+      { "label": "Definitions reconciled", "value": "6", "tone": "neutral" },
+      { "label": "Conflicts found", "value": "1", "tone": "danger" },
+      { "label": "Teams covered", "value": "2 of 4", "tone": "warn" }
+    ]
+  },
+  "consumed_artifacts": [
+    { "tool_id": "mkt-audience-consent-readiness", "team": "marketing", "path": "marketing/mkt-audience-consent-readiness.json" },
+    { "tool_id": "sales-stage-qualification-readiness", "team": "sales", "path": "sales/sales-stage-qualification-readiness.json" }
+  ],
+  "conflicts": [
+    {
+      "term": "Qualified / MQL",
+      "positions": [
+        { "team": "marketing", "definition": "MQL = lead score above threshold OR content download, regardless of budget/authority." },
+        { "team": "sales", "definition": "Qualified = budget confirmed AND economic buyer identified." }
+      ],
+      "impact": "An AI router fed both definitions would mark a lead 'qualified' on a content download and hand it to a closing rep, while Sales' own rule rejects it for missing budget/authority — so the agent mis-routes leads and the two teams disagree on every handoff it triggers.",
+      "recommended_canonical": "Keep 'MQL' as a marketing interest signal (score above threshold OR high-intent content action). Reserve 'Qualified' (SQL) for a sales-accepted state requiring confirmed budget AND an identified economic buyer. Transition rule: an MQL becomes Qualified only after a human or agent verifies budget + economic buyer; the AI router uses 'Qualified' — never 'MQL' — as the handoff gate."
+    }
+  ],
+  "definitions": [
+    { "term": "MQL", "definition": "A lead showing marketing-stage interest: lead score above the agreed threshold OR a high-intent content action (e.g. demo request, pricing-page download). An interest signal only — not a commitment of budget or authority.", "source_team": "revops", "derived_from": "mkt-audience-consent-readiness definitions[]; mql-report-may.csv" },
+    { "term": "Qualified", "definition": "A sales-accepted (SQL) state: confirmed budget AND an identified economic buyer. The single gate an AI router uses for handoff to a closing rep.", "source_team": "revops", "derived_from": "sales-stage-qualification-readiness definitions[]" },
+    { "term": "Customer", "definition": "An account with at least one closed-won opportunity and an active paid subscription. Distinct from a free-trial or prospect account.", "source_team": "revops", "derived_from": "No team currently owns this term — proposed canonical pending ownership assignment." },
+    { "term": "Pipeline", "definition": "The sum of open opportunities in a sales-accepted stage (post-Qualified) weighted at their stage probability. Excludes MQL-stage interest that has not converted to an opportunity.", "source_team": "revops", "derived_from": "sales-stage-qualification-readiness stage data" },
+    { "term": "Churn", "definition": "A previously active paying Customer whose paid subscription has lapsed or been cancelled and not renewed within the grace window. Measured on the subscription, not the contact.", "source_team": "revops", "derived_from": "No team currently owns this term — proposed canonical pending ownership assignment." },
+    { "term": "ARR", "definition": "Annual Recurring Revenue: the annualized value of active recurring subscriptions as of the measurement date, excluding one-time fees and non-recurring services.", "source_team": "revops", "derived_from": "No team currently owns this term — proposed canonical pending ownership assignment." }
+  ],
+  "cta": { "line": "If you'd like help getting your RevOps function AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

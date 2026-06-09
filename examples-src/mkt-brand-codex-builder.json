@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-brand-codex-builder", "name": "Codified Brand Builder", "team": "marketing", "kind": "activation", "flagship": true },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/marketing/content-corpus.md", "description": "4 sample posts (2 on-voice, 1 risky, 1 generic)" }],
+  "summary": {
+    "headline": "Your voice is the confident expedition guide — codified, with two off-voice patterns to ban.",
+    "narrative": "Across the corpus the on-voice writing is confident, uses the summit metaphor, speaks as **we** to **you**, and always names a concrete deliverable. Two samples drift: one stacks unsubstantiated superlatives, one dissolves into generic LLM filler. Both are captured as banned patterns.",
+    "ai_ready": null
+  },
+  "codex": {
+    "voice": "Confident expert guide. First-person plural (we/our) for SaaScend; second-person (you/your) for the reader. Short declarative sentences; occasional bolded pre-claim.",
+    "tone": "Motivational but grounded — every metaphor lands on a concrete deliverable. No emoji. B2B professional.",
+    "positioning": "We guide go-to-market teams to scale revenue by harmonizing systems, data, strategy, and people — with intention.",
+    "pillars": [
+      { "name": "Build the map before the climb", "line": "Strategy and definitions come before automation." },
+      { "name": "Clean before you automate", "line": "You can't automate a mess — fix the pipeline and the glossary first." },
+      { "name": "Concrete over aspirational", "line": "Every promise ties to a deliverable: a lifecycle, a governed glossary, an enablement plan." }
+    ],
+    "approved_language": ["harmonize", "summit / climb / ascent", "with intention", "go-to-market", "lifecycle", "governed glossary", "funnel velocity"],
+    "banned_language": ["best-in-class (without proof)", "industry-leading", "#1", "guaranteed", "leverage synergies", "in today's fast-paced landscape", "holistic, end-to-end", "robust and scalable (as filler)"],
+    "visual_notes": "Summit/mountain metaphor. Cyan #00ACD4 section headings, navy #031F49 dark sections, sky-blue #1071C3 pill CTAs. Montserrat headings, Open Sans body. No emoji.",
+    "examples": [
+      "On-voice: \"RevOps isn't a dashboard you buy — it's the map you build before the climb.\"",
+      "Off-voice (banned): \"Leveraging synergies to unlock holistic, end-to-end growth in today's fast-paced landscape.\""
+    ]
+  },
+  "drafts": [
+    {
+      "kind": "brand-codex",
+      "title": "SaaScend Brand Codex v1",
+      "content": "VOICE: Confident expert guide. We → you. Short declaratives.\nTONE: Motivational but grounded; metaphor always lands on a deliverable. No emoji.\nPOSITIONING: Harmonize systems, data, strategy, and people to scale revenue — with intention.\nPILLARS: (1) Build the map before the climb (2) Clean before you automate (3) Concrete over aspirational.\nAPPROVED: harmonize · summit/climb · with intention · governed glossary · funnel velocity.\nBANNED: best-in-class (unproven) · industry-leading · #1 · guaranteed · leverage synergies · in today's fast-paced landscape · holistic end-to-end · robust/scalable as filler.\nVISUAL: Summit metaphor; cyan headings, navy dark sections, sky-blue pill CTAs; Montserrat + Open Sans; no emoji.",
+      "grounded_on": ["fixtures/marketing/content-corpus.md (4 posts)"],
+      "flags": ["This codex JSON is the yardstick the Distinctiveness Guard and On-Brand Content Drafter load. Re-run when the brand evolves."]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

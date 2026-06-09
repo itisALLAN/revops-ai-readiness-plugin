@@ -1,0 +1,9 @@
+campaign,channel,month,spend,leads,mqls,sqls,opps,won,revenue,attribution_model
+Webinar Q1,Webinar,2026-01,8000,140,42,12,6,2,84000,First-touch
+Paid Search,Paid,2026-01,15000,320,55,9,4,1,42000,Last-touch
+Content Syndication,Content,2026-01,6000,210,28,4,2,0,0,First-touch
+Newsletter,Email,2026-01,500,60,8,3,2,1,38000,Last-touch
+Tradeshow,Event,2026-01,22000,90,35,15,8,3,210000,Multi-touch
+Paid Social,Paid,2026-02,9000,180,30,5,2,0,0,Last-touch
+Webinar Q1,Webinar,2026-02,8000,120,38,10,5,2,99000,First-touch
+Referral Program,Referral,2026-02,0,40,22,14,9,4,330000,Last-touch

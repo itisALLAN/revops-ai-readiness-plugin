@@ -1,0 +1,13 @@
+account_id,name,industry,employees,arr,owner,buying_committee_contacts,icp_tier,parent_account
+ACC-01,Northwind,Software,420,0,A. Cole,3,A,
+ACC-02,Globex,Manufacturing,5200,88000,B. Ng,1,B,
+ACC-03,Initech,Software,310,120000,A. Cole,2,A,
+ACC-04,Hooli,Software,8800,0,C. Diaz,0,A,
+ACC-05,Soylent,Food,1500,0,B. Ng,2,C,
+ACC-06,Stark,Aerospace,12000,210000,A. Cole,5,A,Stark Group
+ACC-07,Wayne,Conglomerate,30000,0,C. Diaz,0,B,Wayne Group
+ACC-08,Tyrell,Biotech,640,99000,A. Cole,2,A,
+ACC-09,Acme Co,Retail,210,0,B. Ng,1,C,
+ACC-10,Massive Dynamic,Research,2100,0,A. Cole,4,A,
+ACC-11,Gekko Capital,Finance,90,0,A. Cole,1,B,
+ACC-12,Nakatomi,RealEstate,1100,72000,B. Ng,2,B,

@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "revops-data-architecture-handoff", "name": "Data Architecture & Handoff Readiness", "team": "revops", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/revops/multi-object-export.md", "description": "Multi-object CRM export: Accounts, Contacts, Leads, Opportunities, Cases", "records": 18 }
+  ],
+  "summary": {
+    "headline": "Your object graph isn't safe for AI routing yet — 5 integrity breaks on the lead→opp→case spine need repair first.",
+    "narrative": "Across five objects we found a severed conversion seam, two foreign keys pointing at accounts that don't exist, an unroutable orphaned opportunity, an orphan contact, and a duplicated account identity. Each one is a place an AI agent would route work to nothing, or split one customer across two records. Fix the broken lead→opportunity seam first — it is the seam an AI relies on to follow a handoff a human believes already happened.",
+    "ai_ready": false,
+    "blocking_count": 5,
+    "stats": [
+      { "label": "Objects checked", "value": "5", "tone": "neutral" },
+      { "label": "Broken FKs", "value": "2", "tone": "danger" },
+      { "label": "Orphaned records", "value": "2", "tone": "danger" },
+      { "label": "Duplicate keys", "value": "1", "tone": "warn" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "SEAM-LD4003",
+      "title": "Lead LD-4003 converted to an opportunity that does not exist",
+      "severity": "high",
+      "category": "Broken handoff seam",
+      "what_we_found": "Lead LD-4003 (c@initech.test) has converted_opp_id OPP-9999, but no opportunity OPP-9999 exists in the export — the lead→opportunity conversion seam is severed.",
+      "why_it_blocks_ai": "An AI following the handoff from this lead lands on nothing. It cannot advance the deal, attribute the source, or trigger the next-stage action a human believes already happened.",
+      "the_fix": [
+        "Identify the real opportunity this lead converted to (match on email domain initech.test and conversion date).",
+        "Re-link LD-4003.converted_opp_id to that opportunity, or mark the conversion failed and re-run lead conversion so the seam is rebuilt.",
+        "Add a validation that converted_opp_id must reference an existing opportunity."
+      ],
+      "affected": ["LD-4003", "OPP-9999"],
+      "evidence": "LD-4003.converted_opp_id = OPP-9999; OPP-9999 absent from Opportunities.",
+      "owner_role": "RevOps / Sales Ops"
+    },
+    {
+      "id": "FK-CON03-CS1099",
+      "title": "Two foreign keys point at accounts that don't exist (ACC-99, ACC-77)",
+      "severity": "high",
+      "category": "Dangling foreign key",
+      "what_we_found": "Contact CON-03 references account ACC-99 and case CS-1099 references account ACC-77, but neither ACC-99 nor ACC-77 exists in the Accounts object.",
+      "why_it_blocks_ai": "An AI resolving the account for this contact or case follows a pointer to nothing — it cannot determine ownership, entitlement, or which customer the case belongs to, so it routes the work incorrectly or stalls.",
+      "the_fix": [
+        "Resolve each dangling FK: reparent CON-03 and CS-1099 to their correct existing accounts (look up by company/domain).",
+        "If the referenced account legitimately should exist, create it and backfill the relationship.",
+        "Add a referential-integrity check so child records cannot be saved against a non-existent account."
+      ],
+      "affected": ["CON-03", "ACC-99", "CS-1099", "ACC-77"],
+      "evidence": "CON-03.account_id = ACC-99 (absent); CS-1099.account_id = ACC-77 (absent).",
+      "owner_role": "RevOps / Data Steward"
+    },
+    {
+      "id": "ORPHAN-OPP2050",
+      "title": "Opportunity OPP-2050 has no account",
+      "severity": "high",
+      "category": "Orphaned record",
+      "what_we_found": "Opportunity OPP-2050 ('Mystery Deal') has a blank account_id — it is not attached to any account.",
+      "why_it_blocks_ai": "Revenue with no parent account is unroutable: an AI cannot determine the owner, the customer relationship, or the entitlements, so it cannot advance or attribute the deal.",
+      "the_fix": [
+        "Assign OPP-2050 to its correct account (look up by deal name / contact).",
+        "If no account can be determined, quarantine the opportunity out of the AI's routable set until a parent is assigned.",
+        "Make account required on opportunity creation to prevent recurrence."
+      ],
+      "affected": ["OPP-2050"],
+      "evidence": "OPP-2050.account_id = (blank).",
+      "owner_role": "Sales Ops"
+    },
+    {
+      "id": "DUP-ACC03",
+      "title": "Duplicate account identity: ACC-03 'Initech' vs ACC-03b 'Initech Inc'",
+      "severity": "high",
+      "category": "Duplicate key",
+      "what_we_found": "ACC-03 ('Initech') and ACC-03b ('Initech Inc') are the same company stored as two records; ACC-03b is explicitly marked duplicate_of ACC-03.",
+      "why_it_blocks_ai": "An AI reasoning over this customer sees two half-pictures — opportunities, contacts, and cases split across two identities — so it under-counts pipeline, mis-attributes activity, and may contact the same customer twice.",
+      "the_fix": [
+        "Merge ACC-03b into the surviving master ACC-03 and repoint all child records (contacts, opportunities, cases).",
+        "Add a duplicate-prevention rule (match on normalized company name + domain) so the AI sees one customer identity.",
+        "Run a one-time dedup sweep on Accounts to catch other near-duplicates."
+      ],
+      "affected": ["ACC-03", "ACC-03b"],
+      "evidence": "ACC-03b.duplicate_of = ACC-03; near-identical name 'Initech' / 'Initech Inc'.",
+      "owner_role": "RevOps / Data Steward"
+    },
+    {
+      "id": "ORPHAN-CON04",
+      "title": "Contact CON-04 has no account",
+      "severity": "medium",
+      "category": "Orphaned record",
+      "what_we_found": "Contact CON-04 (Dana Liu) has a blank account_id — it is not attached to any account.",
+      "why_it_blocks_ai": "An AI cannot place this contact in a customer context, so any routing, scoring, or outreach decision about them is ungrounded.",
+      "the_fix": [
+        "Associate CON-04 with the correct account (look up by email domain).",
+        "If the contact is truly accountless (e.g. a personal lead), route them through lead handling rather than leaving an orphan contact.",
+        "Make account association part of contact-creation hygiene."
+      ],
+      "affected": ["CON-04"],
+      "evidence": "CON-04.account_id = (blank).",
+      "owner_role": "RevOps / Data Steward"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your RevOps function AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

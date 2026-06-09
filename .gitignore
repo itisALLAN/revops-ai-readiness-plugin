@@ -1,0 +1,11 @@
+# Operator's runtime output (per engagement)
+readiness-output/
+
+# Generated from examples-src/ — run shared/build-examples.sh to rebuild
+examples/
+
+# Python / OS cruft
+__pycache__/
+*.pyc
+.DS_Store
+/tmp/

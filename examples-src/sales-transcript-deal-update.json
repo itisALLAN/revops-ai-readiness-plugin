@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-transcript-deal-update", "name": "Transcript → Deal Update Draft", "team": "sales", "kind": "activation", "flagship": true },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/sales/call-transcript.txt", "description": "Northwind discovery call (OPP-2001)" }],
+  "summary": {
+    "headline": "Strong discovery: pain, budget, authority and timeline all surfaced — one gap to confirm.",
+    "narrative": "The Northwind call covered most qualification signals explicitly. Budget (~$40K), the economic buyer (COO Dana Liu, >$25K threshold), a compelling event (board review by Mar 15) and a competitor (Acme) were all stated. Metrics are qualitative — quantify the reporting pain next.",
+    "ai_ready": null
+  },
+  "drafts": [
+    {
+      "kind": "crm-deal-update",
+      "title": "OPP-2001 Northwind — Discovery call update",
+      "content": "NEXT STEPS\n- Send proposed technical demo slots today (focus: reporting + definition governance).\n- Demo to explicitly address the MQL definition conflict (champion called this the room-winner).\n- Target demo next week; demonstrable value required before Mar 15 board review.\n\nSTAGE RATIONALE\n- Keep at Discovery → ready to move to Qualification once budget and demo are confirmed. Pain is clear and a compelling event exists.\n\nQUALIFICATION SIGNALS\n- Metrics/Pain: Untrusted pipeline numbers; reps don't log next steps; stale close dates. (Qualitative — quantify next.)\n- Economic Buyer: COO Dana Liu signs anything >$25K. Jordan Pike (VP RevOps) recommends.\n- Budget: ~$40K earmarked for the platform piece this year; could grow if cleanup proves out.\n- Timeline/Compelling event: Board review end of Q1; needs something demonstrable before Mar 15.\n- Competition: Evaluated Acme; felt their data-hygiene tooling was thin.\n- Champion: Jordan Pike (VP RevOps).\n\nGAPS TO CAPTURE\n- Quantified metric for the reporting pain (e.g. forecast error %, hours lost).\n- Confirm whether the $40K is approved budget or an estimate.",
+      "grounded_on": ["fixtures/sales/call-transcript.txt — Northwind discovery, 2026-01-06"],
+      "flags": [
+        "Stage change is a suggestion, not applied — a human owns the CRM update.",
+        "Metrics signal is qualitative only; no number was stated — drafted as a gap, not invented."
+      ]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-deployment-guardrails", "name": "Deployment Guardrails", "team": "sales", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "text", "ref": "generated", "description": "Generated blueprint; no operator data required" }],
+  "summary": {
+    "headline": "Start the Sales AI at Assist-only; gate every customer-facing send behind approval and every forecast-affecting write behind an audit trail and human sign-off.",
+    "narrative": "This blueprint tiers what an AI may do in Sales. Assist (read-only) is the safe first step. Acting splits into customer-facing sends, which require human approval and respect consent/CAN-SPAM/GDPR and never commit price or terms, and forecast-affecting writes, which require full auditability and human-in-the-loop. The suite never deploys an agent — a human implements and owns these controls.",
+    "ai_ready": null,
+    "blocking_count": 0,
+    "stats": [
+      { "label": "Tiers defined", "value": "3", "tone": "neutral" },
+      { "label": "Act tiers requiring human-in-loop", "value": "2 of 2", "tone": "good" },
+      { "label": "AI self-promotion between tiers", "value": "Not allowed", "tone": "good" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "ASSIST_TIER",
+      "title": "Tier 1 — Assist (read-only): the safe first step",
+      "severity": "low",
+      "category": "Assist tier",
+      "what_we_found": "Read-only assistance — summarising deals, drafting text for a human to use, surfacing risks, and answering questions over CRM data — carries no write or send risk.",
+      "why_it_blocks_ai": "Nothing blocks this tier once readiness gaps are closed; starting anywhere higher exposes the org to send and forecast risk before controls exist.",
+      "the_fix": [
+        "Scope the AI to read-only outputs first: summaries, drafts, risk flags.",
+        "Confirm pipeline, capture, and definition readiness before graduating any capability.",
+        "Keep every output clearly labelled as a draft a human owns."
+      ],
+      "affected": ["Deal summaries", "Draft text", "Risk surfacing"],
+      "owner_role": "RevOps"
+    },
+    {
+      "id": "ACT_TIER_CUSTOMER_FACING",
+      "title": "Tier 2a — Customer-facing sends: behind human approval",
+      "severity": "high",
+      "category": "Act tier (customer-facing)",
+      "what_we_found": "Any AI action that could reach a prospect or customer — emails, sequence steps, meeting scheduling — must not send autonomously.",
+      "why_it_blocks_ai": "Unapproved sends create consent, deliverability, and brand exposure, and an AI committing price or terms could create unintended obligations.",
+      "the_fix": [
+        "Require explicit human approval before any AI-drafted message is sent.",
+        "Respect consent and CAN-SPAM / GDPR: lawful basis, working unsubscribe, accurate sender identity.",
+        "Hard-rule the AI out of committing price, discounts, or contractual terms."
+      ],
+      "affected": ["Outbound email", "Sequences", "Scheduling"],
+      "owner_role": "Sales Leadership"
+    },
+    {
+      "id": "ACT_TIER_FORECAST_AFFECTING",
+      "title": "Tier 2b — Forecast-affecting writes: auditable, human-in-the-loop",
+      "severity": "high",
+      "category": "Act tier (forecast-affecting)",
+      "what_we_found": "Writes that change reported numbers — stage, amount, close date, forecast category — directly move the forecast.",
+      "why_it_blocks_ai": "Silent or unreviewed AI writes to forecast fields would corrupt reporting and remove accountability for the numbers leadership commits to.",
+      "the_fix": [
+        "Require a full audit trail on every AI write: who/what/when/why, and reversible.",
+        "Keep a human in the loop to confirm each forecast-affecting change before it lands.",
+        "Block AI self-promotion between tiers — tier changes are a human governance decision."
+      ],
+      "affected": ["stage", "amount", "close_date", "forecast category"],
+      "owner_role": "RevOps"
+    }
+  ],
+  "disclaimers": ["Guidance, not legal advice."],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

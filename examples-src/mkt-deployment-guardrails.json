@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-deployment-guardrails", "name": "Deployment Guardrails", "team": "marketing", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "text", "ref": "intended use cases: blog drafting, email copy, audience suggestions" }],
+  "summary": {
+    "headline": "Before any AI marketing capability goes live, define the assist-vs-act line, gate every publish behind a human, and log everything — auto-publish almost nothing early.",
+    "narrative": "There is no written boundary between AI actions that assist and actions that act on the world, no tiered approval model, no named sign-off, and no audit-trail spec. This blueprint sets three tiers — assist-only auto, review-then-publish, and a narrow restricted-act tier earned over time — with named sign-off and an immutable audit trail. Stand these up before turning anything on.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Approval tiers defined", "value": "3", "tone": "good" },
+      { "label": "Capabilities cleared for auto-publish", "value": "0", "tone": "neutral" },
+      { "label": "Audit-trail spec", "value": "Required", "tone": "warn" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "DEPLOY-001",
+      "title": "Assist-vs-act boundary is undefined",
+      "severity": "high",
+      "category": "Boundary",
+      "what_we_found": "There is no written rule distinguishing AI actions that only assist (draft, suggest, summarize) from actions that act on the world (publish, send, schedule, edit live audiences).",
+      "why_it_blocks_ai": "Without the boundary, every capability defaults to ambiguous risk and an assist tool can quietly become a publishing tool with no gate.",
+      "the_fix": [
+        "Write the assist-vs-act boundary explicitly; act = anything that reaches an audience or changes live state.",
+        "Classify every intended use case (blog drafting, email copy, audience suggestions) as assist or act.",
+        "Default all act-class capabilities to the most restrictive tier until reviewed."
+      ],
+      "affected": ["blog drafting", "email copy", "audience suggestions"],
+      "evidence": "No assist/act classification exists for the proposed use cases.",
+      "owner_role": "Head of Marketing"
+    },
+    {
+      "id": "DEPLOY-002",
+      "title": "Tier 0 — assist-only (auto-allowed)",
+      "severity": "low",
+      "category": "Approval tier",
+      "what_we_found": "Drafting, summarizing, and suggestion use cases have no defined tier, though they never reach an audience on their own.",
+      "why_it_blocks_ai": "Even assist-only output needs a defined tier so it is never silently promoted to a publish action without re-review.",
+      "the_fix": [
+        "Define Tier 0: AI may draft, summarize, and suggest with no per-item approval.",
+        "Require that Tier 0 output is clearly labelled as a draft and cannot auto-advance to publish.",
+        "Re-classify any Tier 0 use case the moment it gains the ability to reach an audience."
+      ],
+      "affected": ["blog drafting", "email copy"],
+      "evidence": "Assist-only use cases proposed with no tier assigned.",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "DEPLOY-003",
+      "title": "Tier 1 — review-then-publish (human approves each artifact)",
+      "severity": "high",
+      "category": "Approval tier",
+      "what_we_found": "There is no gate requiring a named human to approve each AI artifact before it publishes; act-class capabilities would otherwise reach an audience unreviewed.",
+      "why_it_blocks_ai": "Publishing is an act with audience blast radius; without a per-artifact human gate, an AI error reaches the market before anyone sees it.",
+      "the_fix": [
+        "Define Tier 1: every act-class artifact requires a named human approval before publish.",
+        "Run each draft through the claims list and distinctiveness guard before it reaches the approver.",
+        "Place all act-class capabilities at Tier 1 by default — auto-publish almost nothing early."
+      ],
+      "affected": ["email copy", "audience suggestions"],
+      "evidence": "No review-then-publish gate defined for act-class capabilities.",
+      "owner_role": "Marketing Ops + Legal sign-off for regulated claims"
+    },
+    {
+      "id": "DEPLOY-004",
+      "title": "Tier 2 — restricted-act, plus no audit trail",
+      "severity": "critical",
+      "category": "Approval tier & audit",
+      "what_we_found": "There is no defined narrow auto-publish tier earned over time, no named sign-off authority, and no spec for logging what the AI proposed, what a human approved or edited, who signed off, and when.",
+      "why_it_blocks_ai": "Any auto-publish without a sustained track record and an immutable audit trail is indefensible and irreversible — the highest-risk gap in the blueprint.",
+      "the_fix": [
+        "Define Tier 2 narrowly: auto-publish only for low-blast-radius, reversible actions, earned after a sustained Tier 1 track record, with explicit sign-off.",
+        "Name a sign-off authority per tier and a single owner who can pause everything.",
+        "Specify an immutable audit trail: prompt/input, AI proposal, human edit, approver, timestamp, publish target."
+      ],
+      "affected": ["audit trail", "sign-off authority"],
+      "evidence": "No Tier 2 criteria, no named sign-off, no audit-trail spec.",
+      "owner_role": "Head of Marketing"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": ["Guidance, not legal advice."]
+}

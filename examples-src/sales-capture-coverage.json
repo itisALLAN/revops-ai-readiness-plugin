@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-capture-coverage", "name": "Capture Coverage", "team": "sales", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/sales/activities.csv", "description": "15 logged activities", "records": 15 },
+    { "type": "file", "ref": "fixtures/sales/call-transcript.txt", "description": "Northwind discovery call transcript (OPP-2001)" }
+  ],
+  "summary": {
+    "headline": "Most open deals carry one activity or none — an AI would be blind on half the pipeline.",
+    "narrative": "Logged coverage averages under one activity per open opportunity, and several open deals have no activity at all. Even the well-documented Northwind call's qualification detail isn't structured on the record. Improve auto-capture and set a per-stage minimum before an AI summarises deals.",
+    "ai_ready": false,
+    "blocking_count": 1,
+    "stats": [
+      { "label": "Activities per open opp", "value": "0.8", "tone": "warn" },
+      { "label": "Open opps with no activity", "value": "8", "tone": "danger" },
+      { "label": "Uncaptured conversations found", "value": "0 of 1 sampled", "tone": "good" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "ZERO_ACTIVITY_OPP",
+      "title": "Eight open deals have no logged activity",
+      "severity": "high",
+      "category": "Coverage gaps",
+      "what_we_found": "Open opportunities OPP-2004, OPP-2008, OPP-2009, OPP-2011, OPP-2014, OPP-2017 and OPP-2020 have no rows in the activity log; OPP-2006 (Proposal, $54K) also has none.",
+      "why_it_blocks_ai": "An AI knows nothing about these deals beyond static fields — no calls, no emails, no context to summarise or act on. They are effectively invisible to any assistant.",
+      "the_fix": [
+        "Turn on automatic call/meeting/email capture for all reps.",
+        "Backfill these specific open deals from calendars and inboxes.",
+        "Surface zero-activity open deals to managers as a weekly hygiene list."
+      ],
+      "affected": ["OPP-2004", "OPP-2006", "OPP-2008", "OPP-2009", "OPP-2011", "OPP-2014", "OPP-2017", "OPP-2020"],
+      "evidence": "These opp_ids appear in opportunities.csv but never in activities.csv.",
+      "owner_role": "Sales Operations"
+    },
+    {
+      "id": "THIN_COVERAGE_KEY_DEAL",
+      "title": "Six-figure deals running on a single activity",
+      "severity": "medium",
+      "category": "Coverage depth",
+      "what_we_found": "OPP-2003 (Initech renewal, $120K) and OPP-2010 (Tyrell, $99K) each have just one logged activity despite being in Negotiation.",
+      "why_it_blocks_ai": "Coverage this thin gives an AI almost nothing to reason over on the highest-value deals, exactly where reliable summarisation matters most.",
+      "the_fix": [
+        "Set a minimum logged-activity expectation per stage (deeper for late stages).",
+        "Prompt owners to log the recent touches on these key deals.",
+        "Re-check coverage on deals above a value threshold before any AI summary."
+      ],
+      "affected": ["OPP-2003", "OPP-2010"],
+      "evidence": "Single activity rows ACT-3004 and ACT-3008 for $120K and $99K Negotiation deals.",
+      "owner_role": "Sales Managers"
+    },
+    {
+      "id": "UNCAPTURED_CONVERSATION",
+      "title": "Qualification detail from the Northwind call isn't structured on the record",
+      "severity": "medium",
+      "category": "Coverage depth",
+      "what_we_found": "The Northwind transcript (OPP-2001) captures budget, economic buyer, and a compelling event, and the call is logged (ACT-3001) — but that rich detail lives only in the transcript text, not in structured fields.",
+      "why_it_blocks_ai": "An AI would have to re-parse free text every time; the qualification signals aren't durably captured where they can be scored or reused.",
+      "the_fix": [
+        "Land transcript summaries on the opportunity and map key signals to fields.",
+        "Use the Transcript to Deal Update activation tool to draft the structured update for the rep to paste."
+      ],
+      "affected": ["OPP-2001"],
+      "evidence": "call-transcript.txt contains budget/EB/timeline; activity ACT-3001 logs the call but not the detail.",
+      "owner_role": "Sales Operations"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

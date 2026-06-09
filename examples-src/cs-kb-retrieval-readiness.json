@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "cs-kb-retrieval-readiness", "name": "KB Retrieval Readiness", "team": "customer-success", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/customer-success/kb-articles.md", "description": "KB corpus (6 articles)", "records": 6 }
+  ],
+  "summary": {
+    "headline": "Your KB is not safe to ground an AI on yet — 4 of 6 articles need a split, refresh, or repair first.",
+    "narrative": "Two articles (Reset Your Password, Invite Your Team) are clean, single-topic, and current — good grounding sources today. The other four block safe retrieval: one sprawl page mixes four intents, two are stale (one asserts an outdated package version), and one points at an article that no longer exists. Fix the Getting Started sprawl page first — it is the only source for several intents.",
+    "ai_ready": false,
+    "blocking_count": 3,
+    "stats": [
+      { "label": "Articles reviewed", "value": "6", "tone": "neutral" },
+      { "label": "Articles needing work", "value": "4", "tone": "warn" },
+      { "label": "Dangling references", "value": "1", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "KB-SPRAWL-001",
+      "title": "Getting Started page mixes four unrelated topics",
+      "severity": "critical",
+      "category": "Multi-topic sprawl",
+      "what_we_found": "‘Getting Started (Everything You Need)’ is ~4,100 words spanning four distinct intents — initial setup, inviting teammates, SSO configuration, and the API — on a single page.",
+      "why_it_blocks_ai": "A retriever returns the whole page for any of these intents and cannot isolate the relevant answer, so the AI either over-answers or grounds on the wrong section. It is also the only source for several intents, so retiring it would create gaps.",
+      "the_fix": [
+        "Split into four single-topic articles: Initial Setup, Inviting Teammates, SSO Configuration, and Using the API.",
+        "Link the four from a short Getting Started index page — do not nest the content.",
+        "Migrate the teammate-invite content into the existing ‘Invite Your Team’ article to avoid duplication."
+      ],
+      "affected": ["https://kb.example.com/getting-started"],
+      "evidence": "~4,100 words, 4 unrelated topics on one page (last_updated 2024-03-02).",
+      "owner_role": "Knowledge Base owner"
+    },
+    {
+      "id": "KB-DANGLING-002",
+      "title": "SSO Setup cross-references a non-existent ‘SSO Advanced’ article",
+      "severity": "high",
+      "category": "Dangling reference",
+      "what_we_found": "‘Single Sign-On Setup’ tells the reader to ‘see the certificate steps in SSO Advanced for cert rotation,’ but no ‘SSO Advanced’ article exists in the corpus.",
+      "why_it_blocks_ai": "The AI follows a broken pointer for cert-rotation questions and either hallucinates the missing steps or returns an incomplete answer.",
+      "the_fix": [
+        "Author the missing ‘SSO Advanced’ article covering certificate rotation, or",
+        "Remove the cross-reference and inline the cert-rotation steps directly into the SSO Setup article.",
+        "Refresh last_updated (currently 2023-08-14) once corrected."
+      ],
+      "affected": ["https://kb.example.com/sso-setup"],
+      "evidence": "Body references ‘SSO Advanced’ (absent); last_updated 2023-08-14.",
+      "owner_role": "Knowledge Base owner"
+    },
+    {
+      "id": "KB-STALE-003",
+      "title": "Salesforce integration guide cites an outdated package version",
+      "severity": "high",
+      "category": "Staleness",
+      "what_we_found": "‘Connecting Salesforce’ (last_updated 2023-05-01) instructs installing managed package v1.2, which is three major versions out of date.",
+      "why_it_blocks_ai": "The AI would ground on a version number that is no longer correct, walking customers through an obsolete install path.",
+      "the_fix": [
+        "Update the package version and field-mapping steps to the current release.",
+        "Refresh last_updated, or retire and replace if the install flow has materially changed."
+      ],
+      "affected": ["https://kb.example.com/salesforce-integration"],
+      "evidence": "Body asserts package v1.2; last_updated 2023-05-01.",
+      "owner_role": "Integrations lead"
+    },
+    {
+      "id": "KB-CHUNK-004",
+      "title": "SSO Setup is too thin and unstructured to chunk cleanly",
+      "severity": "medium",
+      "category": "Bad chunking / structure",
+      "what_we_found": "Beyond the dangling reference, ‘Single Sign-On Setup’ is a single short prose paragraph with no headings separating metadata upload from cert handling.",
+      "why_it_blocks_ai": "A chunker splits mid-thought, so retrieval can return a fragment that omits the metadata-upload step needed to answer the question.",
+      "the_fix": [
+        "Add H2/H3 headings: ‘Upload IdP Metadata’ and ‘Certificate Rotation’.",
+        "Lead each section with the answer and keep it self-contained so each chunk stands alone."
+      ],
+      "affected": ["https://kb.example.com/sso-setup"],
+      "evidence": "Single unstructured paragraph covering two sub-topics.",
+      "owner_role": "Knowledge Base owner"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Customer Success team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

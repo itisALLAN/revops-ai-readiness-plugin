@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "revops-practitioner-maturity", "name": "Practitioner Maturity", "team": "revops", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "text", "ref": "self-assessment-interview", "description": "Operator described current RevOps version-control, deployment, and environment practices" }
+  ],
+  "summary": {
+    "headline": "Before you govern other teams' AI, get your own house in order — three engineering disciplines need closing first.",
+    "narrative": "RevOps is about to set the identity, audit, glossary, and guardrail bar for everyone else's AI. That authority only holds if your own practice meets the same bar. Today, RevOps work isn't fully under version control, deployments aren't reproducible, and changes are made in production. Close version control first — the other two rest on it.",
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Disciplines assessed", "value": "3", "tone": "neutral" },
+      { "label": "Gaps found", "value": "3", "tone": "warn" },
+      { "label": "Blocking gaps", "value": "2", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "PM-VERSION-CONTROL",
+      "title": "RevOps work product isn't under version control",
+      "severity": "critical",
+      "category": "Version control",
+      "what_we_found": "CRM metadata, automation definitions, the governed glossary, and the guardrail catalog live only in the live org or in untracked local files — no history, no diff, no peer review.",
+      "why_it_blocks_ai": "If RevOps can't show what changed, when, and who reviewed it, it has no standing to require version control of any team's AI config — and it cannot reconstruct or audit its own governance artifacts.",
+      "the_fix": [
+        "Put all RevOps work product (metadata, automation, glossary, guardrail catalog) under source control.",
+        "Require peer review on every change via pull request.",
+        "Establish a single source of truth so the live org is reproduced from the repo, not the other way around."
+      ],
+      "affected": [],
+      "evidence": "Work product currently in the org / untracked files; no commit history or review.",
+      "owner_role": "RevOps lead"
+    },
+    {
+      "id": "PM-REPRODUCIBLE-DEPLOY",
+      "title": "Deployments aren't reproducible and can't be cleanly rolled back",
+      "severity": "high",
+      "category": "Reproducible deployment",
+      "what_we_found": "Changes are deployed by manual point-and-click in the org; the steps aren't documented and the result isn't reproducible from a tracked source, with no rollback path.",
+      "why_it_blocks_ai": "RevOps is about to require versioned, rollback-able config of every AI agent. It can't credibly demand a discipline it doesn't practise, and a non-reproducible deploy means a bad change has no fast, reliable undo.",
+      "the_fix": [
+        "Define a repeatable deployment from the version-controlled source.",
+        "Make every deployment rollback-able to the prior tracked version.",
+        "Document the deploy/rollback procedure so any team member can run it identically."
+      ],
+      "affected": [],
+      "evidence": "Manual, undocumented deployments; no reproducible source-based path or rollback.",
+      "owner_role": "RevOps lead"
+    },
+    {
+      "id": "PM-ENVIRONMENT-HYGIENE",
+      "title": "Changes are made directly in production with no clean test environment",
+      "severity": "medium",
+      "category": "Environment hygiene",
+      "what_we_found": "RevOps changes are authored directly in production; the sandbox, where one exists, is stale and drifted from prod, so changes aren't validated in isolation first.",
+      "why_it_blocks_ai": "Editing production directly is exactly the practice RevOps will tell other teams to stop doing with their agents. A drifted sandbox also means tests don't reflect reality.",
+      "the_fix": [
+        "Maintain a clean sandbox/test environment refreshed from production on a schedule.",
+        "Author and validate every change there before promoting to production.",
+        "Forbid direct production edits; promotion flows from the tracked source through the test environment."
+      ],
+      "affected": [],
+      "evidence": "Direct prod edits; stale/drifted sandbox.",
+      "owner_role": "RevOps lead"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your RevOps function AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

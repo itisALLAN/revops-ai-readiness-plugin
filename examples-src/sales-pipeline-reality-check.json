@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-pipeline-reality-check", "name": "Pipeline Reality Check", "team": "sales", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/sales/opportunities.csv", "description": "20 opportunities", "records": 20 },
+    { "type": "file", "ref": "fixtures/sales/activities.csv", "description": "15 logged activities", "records": 15 }
+  ],
+  "summary": {
+    "headline": "Six open deals have close dates already in the past and a third of the pipeline has no next step — the forecast can't be trusted yet.",
+    "narrative": "As of 2026-06-08, six open opportunities are past their close date, several in late stages with no recent activity. Next steps are blank on a third of open deals. Re-baseline close dates and require next steps before any AI reads this pipeline as truth.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Open opportunities", "value": "17", "tone": "neutral" },
+      { "label": "Past-due close date", "value": "35%", "tone": "danger" },
+      { "label": "Blank next step", "value": "41%", "tone": "warn" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "STALE_CLOSE_DATE",
+      "title": "Six open deals are past their close date",
+      "severity": "critical",
+      "category": "Date hygiene",
+      "what_we_found": "OPP-2003 (Negotiation, due 2026-01-15), OPP-2006 (Proposal, due 2025-12-31), OPP-2010 (Negotiation, due 2026-01-20), OPP-2013 (Proposal, due 2026-01-10), OPP-2016 (Negotiation, due 2026-01-31) and OPP-2019 (Proposal, due 2026-01-25) are all open with close dates months in the past.",
+      "why_it_blocks_ai": "A forecast model trained on these dates would treat long-dead timelines as live, inflating expected revenue and mis-timing any AI-driven follow-up.",
+      "the_fix": [
+        "Have each owner re-baseline the close date or mark the deal Closed Lost.",
+        "Add a save rule requiring a future close_date to keep an opportunity open.",
+        "Re-run this check until the past-due rate is near zero."
+      ],
+      "affected": ["OPP-2003", "OPP-2006", "OPP-2010", "OPP-2013", "OPP-2016", "OPP-2019"],
+      "evidence": "close_date < 2026-06-08 while stage is not Closed Won/Lost.",
+      "owner_role": "Sales Managers"
+    },
+    {
+      "id": "BLANK_NEXT_STEP",
+      "title": "A third of open deals have no next step",
+      "severity": "high",
+      "category": "Forward signal",
+      "what_we_found": "Open opportunities including OPP-2003, OPP-2004, OPP-2006, OPP-2009, OPP-2011, OPP-2013, OPP-2017 and OPP-2019 have a blank next_step.",
+      "why_it_blocks_ai": "An AI assistant has nothing to summarise, remind on, or act against — the most basic forward signal is missing.",
+      "the_fix": [
+        "Make next_step required to save an open opportunity.",
+        "Prompt owners to fill next steps on the currently blank open deals.",
+        "Treat a blank next step as a stalled-deal trigger for manager review."
+      ],
+      "affected": ["OPP-2003", "OPP-2004", "OPP-2006", "OPP-2009", "OPP-2011", "OPP-2013", "OPP-2017", "OPP-2019"],
+      "evidence": "next_step is empty on 7 of 17 open opportunities.",
+      "owner_role": "Sales Managers"
+    },
+    {
+      "id": "STAGE_ACTIVITY_MISMATCH",
+      "title": "Late-stage deals with no recent activity",
+      "severity": "high",
+      "category": "Momentum",
+      "what_we_found": "OPP-2003 is in Negotiation but its most recent logged activity is the renewal kickoff on 2025-12-02 — over six months stale. OPP-2010 (Negotiation) last logged activity 2025-12-12.",
+      "why_it_blocks_ai": "Stage implies active negotiation; the activity log says the deal has gone quiet. An AI reading stage as momentum would mis-prioritise these as hot.",
+      "the_fix": [
+        "Add an activity-recency rule per late stage (e.g. Negotiation requires activity within 14 days).",
+        "Surface mismatched deals to the owner to either re-engage or re-stage.",
+        "Confirm true status before any AI summarisation runs on these records."
+      ],
+      "affected": ["OPP-2003", "OPP-2010"],
+      "evidence": "Negotiation-stage opps with newest activity dated 2025-12-02 / 2025-12-12.",
+      "owner_role": "Sales Managers"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

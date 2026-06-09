@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-distinctiveness-guard", "name": "Distinctiveness Guard", "team": "marketing", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "json-artifact", "ref": "mkt-brand-codex-builder", "description": "Brand codex (yardstick) from readiness-output/marketing/mkt-brand-codex-builder.json" },
+    { "type": "file", "ref": "fixtures/marketing/content-corpus.md", "description": "4 sample posts measured against the codex" }
+  ],
+  "summary": {
+    "headline": "One post has already drifted all the way to generic LLM-voice — rewrite it toward your codex before an AI learns to produce more of it.",
+    "narrative": "Measured against the brand codex, the post 'Leveraging Synergies to Unlock Holistic Growth' is interchangeable filler: it carries banned language, drops every signature element, and names no concrete deliverable. It is the pattern an AI will multiply if left as a positive example. Rewrite it toward the codex voice and add it to the watch-list.",
+    "ai_ready": false,
+    "blocking_count": 1,
+    "stats": [
+      { "label": "Posts checked against codex", "value": "4", "tone": "neutral" },
+      { "label": "Posts drifting to the mean", "value": "1", "tone": "danger" },
+      { "label": "Banned phrases found", "value": "4", "tone": "warn" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "DRIFT-001",
+      "title": "'Leveraging Synergies' post has drifted to generic LLM-voice",
+      "severity": "high",
+      "category": "Voice drift",
+      "what_we_found": "Measured against the codex, the post 'Leveraging Synergies to Unlock Holistic Growth' reads as interchangeable LLM filler — abstract, stakeholder-facing, with no point of view and none of the brand's signature voice.",
+      "why_it_blocks_ai": "If this stays live as an unflagged example, an AI generating from the corpus will treat the mean as the target and multiply bland, undifferentiated copy at scale.",
+      "the_fix": [
+        "Rewrite toward the codex voice: restore the summit/climb metaphor and the we→you address.",
+        "Anchor the piece to a concrete deliverable (a defined lifecycle, a governed glossary, an enablement plan).",
+        "Add the post to a distinctiveness watch-list and re-check after rewrite."
+      ],
+      "affected": ["https://blog.example.com/leveraging-synergies"],
+      "evidence": "\"In today's fast-paced digital landscape, organizations must leverage cutting-edge solutions to unlock holistic, end-to-end synergies.\"",
+      "owner_role": "Content Lead"
+    },
+    {
+      "id": "DRIFT-002",
+      "title": "Codex banned-language phrases present verbatim",
+      "severity": "high",
+      "category": "Banned language",
+      "what_we_found": "The same post contains four phrases on the codex banned_language list: 'leverage synergies', 'in today's fast-paced landscape', 'holistic, end-to-end', and 'robust, scalable' used as filler.",
+      "why_it_blocks_ai": "Banned filler in a live post sets a precedent an AI will replicate; the codex exists precisely to keep these phrases out of market-facing copy.",
+      "the_fix": [
+        "Replace each banned phrase with codex approved_language ('harmonize', 'with intention', 'governed glossary').",
+        "Wire the banned-language list into the pre-publication check so these phrases are caught before any draft ships."
+      ],
+      "affected": ["https://blog.example.com/leveraging-synergies"],
+      "evidence": "Phrases 'leverage synergies', 'in today's fast-paced landscape', 'holistic, end-to-end', 'robust, scalable' all match codex banned_language.",
+      "owner_role": "Content Lead"
+    },
+    {
+      "id": "DRIFT-003",
+      "title": "No signature elements or concrete deliverable",
+      "severity": "medium",
+      "category": "Signature voice",
+      "what_we_found": "The post drops every codex signature element — no summit metaphor, no we→you address — and names no concrete deliverable, staying purely aspirational.",
+      "why_it_blocks_ai": "The codex requires every promise to land on a concrete deliverable; a piece with none teaches an AI that vague aspiration is acceptable brand output.",
+      "the_fix": [
+        "Reintroduce the signature metaphor and direct we→you address.",
+        "Tie the central promise to one concrete deliverable so the piece earns its place against the codex."
+      ],
+      "affected": ["https://blog.example.com/leveraging-synergies"],
+      "evidence": "No summit metaphor, no we/you address, no deliverable named in the body.",
+      "owner_role": "Content Lead"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

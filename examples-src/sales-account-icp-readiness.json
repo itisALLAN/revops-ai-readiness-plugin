@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-account-icp-readiness", "name": "Account & ICP Readiness", "team": "sales", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/sales/accounts.csv", "description": "12 accounts", "records": 12 }],
+  "summary": {
+    "headline": "Two accounts have zero buying-committee contacts and the ICP tiers aren't defined anywhere — an AI would route on guesswork.",
+    "narrative": "Accounts carry an A/B/C ICP tier label but no documented criteria behind it, and Hooli and Wayne (both with open deals) have no buying-committee contacts at all. Define ICP as a rule and require at least one committee contact before letting an AI route or prioritise accounts.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Accounts assessed", "value": "12", "tone": "neutral" },
+      { "label": "Accounts with 0 committee contacts", "value": "2", "tone": "danger" },
+      { "label": "ICP criteria documented", "value": "No", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "NO_BUYING_COMMITTEE",
+      "title": "Hooli and Wayne have no buying-committee contacts",
+      "severity": "high",
+      "category": "Buying committee",
+      "what_we_found": "Hooli (ACC-04) and Wayne (ACC-07) both show buying_committee_contacts = 0, yet both have active open opportunities (OPP-2004, OPP-2008).",
+      "why_it_blocks_ai": "An AI cannot reason about who to engage, who signs, or who to route to when no committee contacts exist — it would be steering deals at no one.",
+      "the_fix": [
+        "Identify and add at least one buying-committee contact per account, ideally the economic buyer.",
+        "Require a committee contact before an account is eligible for AI-assisted routing.",
+        "Prioritise the accounts that already have open deals (Hooli, Wayne)."
+      ],
+      "affected": ["Hooli (ACC-04)", "Wayne (ACC-07)"],
+      "evidence": "accounts.csv buying_committee_contacts = 0 for ACC-04 and ACC-07.",
+      "owner_role": "Account Executives"
+    },
+    {
+      "id": "MISSING_ICP_DEFINITION",
+      "title": "ICP tiers are labelled but never defined",
+      "severity": "high",
+      "category": "Definitions",
+      "what_we_found": "Every account carries an icp_tier of A, B, or C, but no field, doc, or rule states what qualifies an account for each tier. Tier A spans Software (Northwind), Aerospace (Stark) and Research (Massive Dynamic) with no visible common criteria.",
+      "why_it_blocks_ai": "Without an explicit ICP rule, an AI prioritising accounts would either ignore the tiers or invent its own logic — neither is governable or auditable.",
+      "the_fix": [
+        "Document ICP tier criteria explicitly (firmographics + buying signals).",
+        "Encode the criteria as a rule and re-derive tiers from data, not opinion.",
+        "Reconcile the ICP definition with marketing before an AI routes leads or accounts."
+      ],
+      "affected": ["icp_tier (all accounts)"],
+      "evidence": "icp_tier present but no criteria source; Tier A mixes unrelated industries.",
+      "owner_role": "RevOps"
+    },
+    {
+      "id": "DATA_HYGIENE_GAP",
+      "title": "Several accounts show ARR of zero",
+      "severity": "medium",
+      "category": "Data hygiene",
+      "what_we_found": "Northwind, Hooli, Soylent, Wayne, Acme Co, Massive Dynamic and Gekko Capital all show arr = 0, mixing genuine prospects with what may be stale or unentered data.",
+      "why_it_blocks_ai": "An AI prioritising on account value would treat all of these as worthless, potentially deprioritising real opportunities — a zero may mean prospect, not no value.",
+      "the_fix": [
+        "Distinguish prospect (no ARR yet) from customer with missing ARR via a status field.",
+        "Backfill ARR for current customers before an AI prioritises on account value."
+      ],
+      "affected": ["Northwind", "Hooli", "Soylent", "Wayne", "Acme Co", "Massive Dynamic", "Gekko Capital"],
+      "evidence": "arr = 0 on 7 of 12 accounts.",
+      "owner_role": "Sales Operations"
+    }
+  ],
+  "definitions": [
+    {
+      "term": "ICP",
+      "definition": "ICP = B2B software accounts, 250-5,000 employees, with a named economic buyer and a budgeted RevOps initiative.",
+      "source_team": "sales",
+      "derived_from": "Inferred from Tier A account profile; no documented criteria currently exist."
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

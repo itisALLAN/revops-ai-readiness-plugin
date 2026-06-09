@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "cs-deployment-guardrails", "name": "Deployment Guardrails", "team": "customer-success", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [],
+  "summary": {
+    "headline": "Stand up three guardrails before any support AI goes live: escalation/handoff rules, a read-only-first posture, and the retrieval plumbing.",
+    "narrative": "These are the non-negotiable guardrails for a Customer Success AI. Build them in order: wire the retrieval plumbing so grounding is reliable, deploy read-only-first so a wrong answer can't become a wrong action, and define explicit escalation triggers with a context-handoff template so humans pick up cleanly. None of this provisions an AI — it is the safety design a human implements.",
+    "ai_ready": false,
+    "blocking_count": 3,
+    "stats": [
+      { "label": "Guardrails to stand up", "value": "3", "tone": "warn" },
+      { "label": "Initial write access", "value": "None (read/draft only)", "tone": "good" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "GR-ESCALATION-001",
+      "title": "Define explicit escalation and handoff triggers",
+      "severity": "critical",
+      "category": "Escalation & handoff",
+      "what_we_found": "By default a support AI has no rule for when to stop and hand to a human, so it will attempt answers it shouldn't.",
+      "why_it_blocks_ai": "Without hard handoff triggers, the AI self-serves sensitive or low-confidence cases and gives wrong or unsafe answers.",
+      "the_fix": [
+        "Hand off on any of: low retrieval confidence, a sensitive intent (billing / account security / legal-regulated), two failed turns on the same question, explicit customer request, or detected frustration.",
+        "Route each sensitive class to its named human queue.",
+        "Attach the context-handoff template (see draft) to every escalation so the human has full context."
+      ],
+      "affected": ["escalation-policy"],
+      "evidence": "Generated best-practice guardrail; no AI deployment should ship without it.",
+      "owner_role": "CS Operations Lead"
+    },
+    {
+      "id": "GR-PERMS-002",
+      "title": "Deploy read-only-first — humans commit every write",
+      "severity": "high",
+      "category": "Permission posture",
+      "what_we_found": "A first-deployment AI is often given write access (record updates, status changes, refunds) before its accuracy is proven.",
+      "why_it_blocks_ai": "Write access on day one turns a single wrong answer into a wrong action — an erroneous refund, a changed record, a closed case.",
+      "the_fix": [
+        "Grant the AI integration user read and draft permissions only; no create/update/delete on customer records.",
+        "Require a human to commit any write the AI proposes.",
+        "Stage write access only after a monitored read-only period passes review."
+      ],
+      "affected": ["ai-integration-user", "permission-set"],
+      "evidence": "Generated best-practice guardrail (least privilege, staged enablement).",
+      "owner_role": "Salesforce Admin"
+    },
+    {
+      "id": "GR-PLUMBING-003",
+      "title": "Wire and verify the retrieval plumbing before grounding",
+      "severity": "high",
+      "category": "Retrieval plumbing",
+      "what_we_found": "Knowledge retrieval depends on Data Category Visibility, FLS on Knowledge fields, and sharing — commonly misconfigured so the AI either retrieves nothing or sees internal-only content.",
+      "why_it_blocks_ai": "Wrong visibility starves retrieval (no grounding) or leaks internal articles into customer answers.",
+      "the_fix": [
+        "Set Data Category Visibility so the AI integration user sees exactly the public KB categories.",
+        "Confirm field-level security on every Knowledge field the AI reads (title, body, summary).",
+        "Set sharing rules to expose only published, customer-facing articles; exclude internal-only.",
+        "Run a least-privilege review: confirm the integration user sees the public KB and nothing internal."
+      ],
+      "affected": ["data-category-visibility", "knowledge-fls", "sharing-rules"],
+      "evidence": "Generated best-practice checklist for Knowledge-grounded retrieval.",
+      "owner_role": "Salesforce Admin"
+    }
+  ],
+  "drafts": [
+    {
+      "kind": "context-handoff-template",
+      "title": "AI-to-human context handoff template",
+      "content": "**AI → Human Handoff**\n\n- Customer / Case: {{customer_name}} — {{case_number}}\n- Detected intent: {{intent}}\n- What the AI handled so far: {{summary_of_turns}}\n- Draft answer given (if any): {{draft_answer}}\n- Grounding sources used: {{kb_articles_cited}}\n- Reason for escalation: {{trigger — e.g. sensitive intent / low confidence / customer request}}\n- Suggested next step: {{recommended_action}}\n- Customer sentiment: {{sentiment}}\n\nHuman owns the resolution from here.",
+      "grounded_on": ["Generated guardrail design — best practice"],
+      "flags": [
+        "TEMPLATE — wire these fields to your CRM/KB; the AI fills them at escalation time.",
+        "The AI must never resolve sensitive intents itself; this template routes them to a human."
+      ]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Customer Success team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": ["Guidance, not legal advice."]
+}

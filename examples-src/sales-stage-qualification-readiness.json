@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-stage-qualification-readiness", "name": "Stage & Qualification Readiness", "team": "sales", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/sales/opportunities.csv", "description": "20 opportunities across 5 stages", "records": 20 }],
+  "summary": {
+    "headline": "Stages exist but qualification lives in rep memory — an AI has no fields to score a deal against.",
+    "narrative": "The pipeline uses five stages, but no column captures budget, authority, or decision process, so Discovery and Qualification rows are indistinguishable in the data. Add structured qualification fields and define stage entry criteria before letting an AI score or route deals.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Stages in use", "value": "5", "tone": "neutral" },
+      { "label": "Qualification fields captured", "value": "0", "tone": "danger" },
+      { "label": "Stages with no scorable signal", "value": "5", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "MISSING_QUALIFICATION_FIELDS",
+      "title": "No qualification signals captured as fields",
+      "severity": "critical",
+      "category": "Qualification capture",
+      "what_we_found": "None of the 20 opportunities carry a structured field for budget confirmed, economic buyer, decision process, or compelling event. The only deal-context column is a freeform next_step, and 7 of those are blank.",
+      "why_it_blocks_ai": "An AI scoring or prioritising deals has nothing to read — qualification lives in rep memory and call notes, not the record. Any AI judgement would be guessing.",
+      "the_fix": [
+        "Add structured fields: Budget Confirmed (checkbox), Economic Buyer (contact lookup), Decision Process (picklist), Compelling Event (date).",
+        "Backfill the open pipeline from recent call notes and activity history.",
+        "Make Budget Confirmed and Economic Buyer required to advance past Qualification."
+      ],
+      "affected": ["all 20 opportunities"],
+      "evidence": "opportunities.csv columns: stage, amount, close_date, next_step, lead_source, competitor — no qualification fields.",
+      "owner_role": "Sales Operations"
+    },
+    {
+      "id": "UNDIFFERENTIATED_STAGES",
+      "title": "Discovery and Qualification are indistinguishable in the data",
+      "severity": "high",
+      "category": "Stage hygiene",
+      "what_we_found": "Discovery rows (e.g. OPP-2001, OPP-2008) and Qualification rows (e.g. OPP-2005, OPP-2009) carry the same set of populated fields. Only the stage label differs; no field value backs the distinction.",
+      "why_it_blocks_ai": "If two stages look identical except for a manually chosen label, an AI cannot learn what the stages mean or detect a deal sitting in the wrong stage.",
+      "the_fix": [
+        "Define field-based entry criteria per stage (e.g. Qualification requires Budget Confirmed = true).",
+        "Audit current open deals against the new criteria and correct mis-staged records.",
+        "Document stage entry/exit criteria in the sales process doc."
+      ],
+      "affected": ["Discovery", "Qualification"],
+      "evidence": "Discovery vs Qualification rows differ only by the stage column.",
+      "owner_role": "Sales Operations"
+    },
+    {
+      "id": "FREEFORM_NEXT_STEP_ONLY",
+      "title": "Deal intent is only inferable from a freeform next-step string",
+      "severity": "medium",
+      "category": "Qualification capture",
+      "what_we_found": "Where qualification context exists at all, it is buried in next_step prose like 'Confirm budget with champion' (OPP-2005) rather than in a structured field.",
+      "why_it_blocks_ai": "Freeform strings are inconsistent and unscorable; an AI cannot reliably parse 'confirm budget' into a budget-confirmed state.",
+      "the_fix": [
+        "Promote the recurring next-step themes (budget, stakeholders, redlines) into structured fields.",
+        "Keep next_step for the human nuance, but stop relying on it as the source of truth for qualification."
+      ],
+      "affected": ["OPP-2005", "OPP-2018", "OPP-2015"],
+      "evidence": "next_step values such as 'Confirm budget with champion', 'Exec sponsor intro', 'Map stakeholders'.",
+      "owner_role": "Sales Operations"
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Qualified",
+      "definition": "Qualified = budget confirmed AND economic buyer identified on the opportunity record.",
+      "source_team": "sales",
+      "derived_from": "Proposed sales stage entry criteria; no field currently encodes this."
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "cs-kb-reply-drafter", "name": "KB-Grounded Reply Drafter", "team": "customer-success", "kind": "activation", "flagship": true },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "text", "ref": "customer question", "description": "Customer question (2 parts)" },
+    { "type": "file", "ref": "fixtures/customer-success/kb-articles.md", "description": "KB corpus (6 articles)" }
+  ],
+  "summary": {
+    "headline": "Your KB can ground half of this reply — the API rate-limit half has no source.",
+    "narrative": "The password-reset request is fully covered by a current, single-topic article. The API rate-limit request has **no article in the KB at all**, so an AI agent would have to invent the answer. We drafted the safe half and flagged the gap.",
+    "ai_ready": false
+  },
+  "drafts": [
+    {
+      "kind": "kb-grounded-reply",
+      "title": "Reset password + API rate limits",
+      "content": "Hi there,\n\nHappy to help with the password reset. Just head to the sign-in page and click “Forgot password” — a reset email will arrive within about five minutes. If it doesn’t show up, check your spam folder and make sure you’re using the email on file.\n\nOn API rate limits: I want to get you an accurate answer rather than guess, so I’m checking with our team on the current limits and will follow up shortly.\n\nBest,\n[Your name]",
+      "grounded_on": ["https://kb.example.com/password-reset (Reset Your Password, updated 2026-01-10)"],
+      "flags": [
+        "Current KB has NO article on API rate limits — the second half of this question is unanswerable from the KB as it stands. The draft deliberately does not state a limit. Author a rate-limits article before letting an AI self-serve this intent.",
+        "Password-reset half is fully grounded and safe for AI self-serve today."
+      ]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Customer Success team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

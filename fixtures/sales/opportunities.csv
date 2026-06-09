@@ -1,0 +1,21 @@
+opp_id,name,account,stage,amount,created_date,close_date,owner,next_step,lead_source,competitor
+OPP-2001,Northwind - Platform,Northwind,Discovery,42000,2026-01-05,2026-02-15,A. Cole,Schedule technical demo,Inbound,
+OPP-2002,Globex - Expansion,Globex,Proposal,88000,2025-11-02,2026-01-31,B. Ng,Send revised quote,Referral,Acme
+OPP-2003,Initech - Renewal,Initech,Negotiation,120000,2025-12-01,2026-01-15,A. Cole,,Existing,
+OPP-2004,Hooli - Net New,Hooli,Discovery,15000,2026-01-10,2026-01-12,C. Diaz,,Outbound,
+OPP-2005,Soylent - Platform,Soylent,Qualification,67000,2026-01-08,2026-03-30,B. Ng,Confirm budget with champion,Event,
+OPP-2006,Umbrella - Expansion,Umbrella,Proposal,54000,2025-10-15,2025-12-31,C. Diaz,,Inbound,Acme
+OPP-2007,Stark - Platform,Stark,Closed Won,210000,2025-09-01,2025-12-20,A. Cole,,Referral,
+OPP-2008,Wayne - Net New,Wayne,Discovery,33000,2026-01-12,2026-06-30,C. Diaz,Intro call,Outbound,
+OPP-2009,Wonka - Platform,Wonka,Qualification,45000,2026-01-14,2026-02-28,B. Ng,,Inbound,
+OPP-2010,Tyrell - Expansion,Tyrell,Negotiation,99000,2025-12-10,2026-01-20,A. Cole,Final redlines,Existing,Beta
+OPP-2011,Cyberdyne - Net New,Cyberdyne,Discovery,28000,2026-01-15,2026-01-18,C. Diaz,,Outbound,
+OPP-2012,Acme - Platform,Acme Co,Closed Lost,52000,2025-10-01,2025-12-05,B. Ng,,Inbound,Acme
+OPP-2013,Pied Piper - Platform,Pied Piper,Proposal,76000,2025-11-20,2026-01-10,A. Cole,,Referral,
+OPP-2014,Vandelay - Net New,Vandelay,Qualification,19000,2026-01-16,2026-04-15,C. Diaz,Discovery call booked,Event,
+OPP-2015,Gekko - Expansion,Gekko Capital,Discovery,140000,2026-01-03,2026-02-01,A. Cole,Map stakeholders,Referral,
+OPP-2016,Duff - Platform,Duff,Negotiation,61000,2025-12-22,2026-01-31,B. Ng,Procurement review,Inbound,
+OPP-2017,Oscorp - Net New,Oscorp,Discovery,24000,2026-01-17,2026-01-19,C. Diaz,,Outbound,
+OPP-2018,Massive Dynamic - Platform,Massive Dynamic,Qualification,185000,2026-01-09,2026-03-15,A. Cole,Exec sponsor intro,Referral,Acme
+OPP-2019,Nakatomi - Expansion,Nakatomi,Proposal,72000,2025-11-11,2026-01-25,B. Ng,,Existing,
+OPP-2020,Bluth - Net New,Bluth,Discovery,12000,2026-01-18,2026-12-31,C. Diaz,,Outbound,

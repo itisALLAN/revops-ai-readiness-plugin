@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "revops-eval-deployment-framework", "name": "Eval & Deployment Framework", "team": "revops", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "text", "ref": "intended-agent-job", "description": "Operator described the agent's job: triage and route inbound support cases" }
+  ],
+  "summary": {
+    "headline": "Before any AI agent goes live, build these four things: an eval harness, versioned config, a dev/test/prod path, and an ops runbook.",
+    "narrative": "Most teams can launch an agent faster than they can prove it works or roll it back. This framework closes that gap. Stand up the eval harness first — it's the gate every config change and promotion depends on. This is a framework you implement; nothing here is deployed for you.",
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Framework components", "value": "4", "tone": "neutral" },
+      { "label": "Eval gates", "value": "cold-start + accumulated-context + regression", "tone": "neutral" },
+      { "label": "Environments", "value": "dev / test / prod", "tone": "good" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "EVAL-HARNESS",
+      "title": "Eval harness: historical-case test sets run cold-start, accumulated-context, and as regression",
+      "severity": "critical",
+      "category": "Evaluation",
+      "what_we_found": "There is no repeatable way to prove the agent produces the right outcome on known cases, and no test that re-runs when the config changes.",
+      "why_it_blocks_ai": "Without an eval harness you ship on vibes — you can't tell whether a prompt tweak improved or silently broke the agent, and you discover regressions in production from real customers.",
+      "the_fix": [
+        "Build a test set from real historical cases: each case's inputs paired with its known-good outcome.",
+        "Run the set cold-start (no prior context) to measure baseline reasoning.",
+        "Run the same set with accumulated production-like context to confirm the agent doesn't drift or over-rely on history.",
+        "Wire the full set as a regression suite that re-runs on every config change; a change may not ship if it regresses any case.",
+        "Track pass rate per run and store results alongside the config version that produced them."
+      ],
+      "affected": [],
+      "evidence": "No existing eval test set or regression gate for the planned case-triage agent.",
+      "owner_role": "RevOps / AI Platform owner"
+    },
+    {
+      "id": "CONFIG-DISCIPLINE",
+      "title": "Versioned, rollback-able configuration discipline",
+      "severity": "high",
+      "category": "Change management",
+      "what_we_found": "Prompts, tool definitions, model choice, and guardrails would be edited in place with no version history and no clean way to revert.",
+      "why_it_blocks_ai": "If you can't see what changed or roll back atomically, a bad change stays live until someone reconstructs the previous config by hand — turning a small mistake into a prolonged incident.",
+      "the_fix": [
+        "Put every agent artifact (prompts, tool defs, model selection, guardrails) under version control with a version tag.",
+        "Make any deployed version atomically rollback-able — reverting is a single tagged action, not a manual rebuild.",
+        "Forbid untracked, hand-edited production config; all changes flow through version control.",
+        "Record which config version is live in each environment at all times."
+      ],
+      "affected": [],
+      "evidence": "No version control or rollback path defined for agent configuration.",
+      "owner_role": "AI Platform owner / Engineering"
+    },
+    {
+      "id": "ENV-MODEL",
+      "title": "Dev / test / prod model with eval-gated promotion",
+      "severity": "high",
+      "category": "Deployment model",
+      "what_we_found": "Changes would be made directly against the production agent, with no isolated place to validate them first.",
+      "why_it_blocks_ai": "Editing prod directly means every experiment is a live experiment on real customers, and there is no gate that stops a bad change from reaching them.",
+      "the_fix": [
+        "Author changes in dev only.",
+        "Promote to test and run the full eval harness there.",
+        "Promote to prod only after a clean regression run; never edit prod directly.",
+        "Record the config version and eval result for every promotion."
+      ],
+      "affected": [],
+      "evidence": "No environment separation between where changes are made and where customers are served.",
+      "owner_role": "AI Platform owner"
+    },
+    {
+      "id": "OPS-RUNBOOK",
+      "title": "Live-fleet ops runbook: monitoring, tuning, incident response, lifecycle",
+      "severity": "medium",
+      "category": "Operations",
+      "what_we_found": "There is no defined way to watch a live agent, adjust it safely, respond when it misbehaves, or retire it at end of life.",
+      "why_it_blocks_ai": "An unmonitored agent degrades silently — quality slips, escalations climb, cost drifts — and with no incident playbook the first sign of trouble is a customer complaint.",
+      "the_fix": [
+        "Monitoring: watch output quality, escalation/handoff rate, latency, and cost; alert on threshold breaches.",
+        "Tuning: define how and when config is adjusted, always via the dev→test→prod path and the eval gate.",
+        "Incident response: define detection signals, containment (pause/disable the agent), and atomic rollback to the last good version.",
+        "Lifecycle: version, deprecate, and retire agents on a schedule; decommission identities and audit access on retirement."
+      ],
+      "affected": [],
+      "evidence": "No production monitoring, tuning policy, incident playbook, or lifecycle plan for live agents.",
+      "owner_role": "RevOps / AI Operations"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your RevOps function AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}

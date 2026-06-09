@@ -1,0 +1,318 @@
+/* =====================================================================
+ * SaaScend — Colors & Type
+ * ---------------------------------------------------------------------
+ * Source of truth for brand color tokens, typography, and semantic
+ * styles. Derived from saascend.com (April 2026 capture) and the
+ * SaaScend logomark. All hex values are sampled from the live site.
+ * =====================================================================
+ */
+
+@import url('./fonts/fonts.css');
+
+:root {
+  /* ------------------------------------------------------------------
+   * BRAND COLORS
+   * Three anchor colors define the brand:
+   *   • Summit Cyan  — the peak accent from the logo "A" mark
+   *   • Deep Navy    — the "base camp" hero background
+   *   • Sky Blue     — the action / CTA blue
+   * ------------------------------------------------------------------ */
+  --brand-cyan:        #00ACD4;   /* logo accent, outline rings */
+  --brand-cyan-600:    #0095B8;   /* hover */
+  --brand-cyan-200:    #B8ECFA;   /* icon halos / tints */
+  --brand-cyan-100:    #D7F3FB;   /* soft tint */
+
+  --brand-navy:        #031F49;   /* hero bg, dark sections */
+  --brand-navy-800:    #0A2E5C;   /* dark section grad stop */
+  --brand-navy-600:    #17407A;   /* slightly-elevated dark */
+
+  --brand-blue:        #1071C3;   /* primary CTA button */
+  --brand-blue-600:    #0B5FA3;   /* hover */
+  --brand-blue-400:    #3E93D9;   /* highlight / link-hover */
+
+  /* ------------------------------------------------------------------
+   * NEUTRAL SCALE
+   * The site uses a near-black charcoal (not pure #000) for body text
+   * and a warm, near-white for surfaces.
+   * ------------------------------------------------------------------ */
+  --ink-900:           #1A1D28;   /* dark footer strip, near-black */
+  --ink-800:           #2D2A2B;   /* body text */
+  --ink-700:           #4A4A4A;
+  --ink-500:           #7A7A7A;   /* muted / eyebrow */
+  --ink-300:           #C9CED6;   /* divider */
+  --ink-200:           #E2E6EA;   /* faint divider / bg */
+  --ink-100:           #F5F8FA;   /* input fill */
+  --ink-0:             #FFFFFF;
+
+  /* Brand-tinted surfaces */
+  --surface-ice:       #EBF9FF;   /* section bg (pillars / journey) */
+  --surface-ice-soft:  #E9F7FD;
+
+  /* ------------------------------------------------------------------
+   * SEMANTIC TOKENS
+   * ------------------------------------------------------------------ */
+  --fg:                var(--ink-800);
+  --fg-strong:         var(--ink-900);
+  --fg-muted:          var(--ink-500);
+  --fg-on-dark:        var(--ink-0);
+  --fg-on-dark-muted:  rgba(255, 255, 255, 0.72);
+
+  --bg:                var(--ink-0);
+  --bg-soft:           var(--surface-ice);
+  --bg-dark:           var(--ink-900);
+  --bg-hero:           var(--brand-navy);
+
+  --accent:            var(--brand-cyan);
+  --accent-link:       var(--brand-blue);
+  --accent-action:     var(--brand-blue);
+
+  --border:            var(--ink-200);
+  --border-strong:     var(--ink-300);
+  --divider-on-dark:   rgba(255, 255, 255, 0.12);
+
+  --ring:              var(--brand-cyan);
+
+  /* Status (inferred — brand doesn't publish explicit states) */
+  --status-success:    #2EA66A;
+  --status-warn:       #E0A82E;
+  --status-danger:     #D24545;
+
+  /* ------------------------------------------------------------------
+   * TYPOGRAPHY
+   * Two-family system:
+   *   • Montserrat  — display, headings, UI labels, buttons (sentence
+   *                    or all-caps with tracking for eyebrows)
+   *   • Open Sans   — body copy, long-form paragraphs
+   * Headings run a wider weight range (600 / 700 / 800); body stays at
+   * 400/600. Eyebrows are all-caps Montserrat at 500 with +0.15em track.
+   * ------------------------------------------------------------------ */
+  --font-display: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body:    'Open Sans',  ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+
+  /* Type scale — modular, ~1.2 ratio from 16px */
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-15: 0.9375rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-28: 1.75rem;
+  --fs-32: 2rem;
+  --fs-40: 2.5rem;
+  --fs-48: 3rem;
+  --fs-56: 3.5rem;
+  --fs-64: 4rem;
+
+  --lh-tight:   1.1;
+  --lh-snug:    1.25;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.65;
+
+  --tracking-tight:   -0.01em;
+  --tracking-normal:   0;
+  --tracking-eyebrow:  0.15em;
+  --tracking-caps:     0.06em;
+
+  /* ------------------------------------------------------------------
+   * SPACING (4px base)
+   * ------------------------------------------------------------------ */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* ------------------------------------------------------------------
+   * RADII — soft, NOT pill-heavy; buttons are the exception (full pill)
+   * ------------------------------------------------------------------ */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-xl:   16px;
+  --radius-pill: 999px;
+
+  /* ------------------------------------------------------------------
+   * SHADOWS — light, ambient. Cards rely on a very soft lift, no deep
+   * drops. Navy sections use inner "weight" rather than outer shadow.
+   * ------------------------------------------------------------------ */
+  --shadow-xs:  0 1px 2px rgba(10, 30, 60, 0.05);
+  --shadow-sm:  0 2px 6px rgba(10, 30, 60, 0.06);
+  --shadow-md:  0 8px 24px rgba(10, 30, 60, 0.08);
+  --shadow-lg:  0 18px 48px rgba(10, 30, 60, 0.12);
+  --shadow-card: 0 2px 0 rgba(10, 30, 60, 0.03), 0 8px 20px rgba(10, 30, 60, 0.07);
+
+  /* ------------------------------------------------------------------
+   * MOTION — quick, gentle. No bounce.
+   * ------------------------------------------------------------------ */
+  --ease-out:  cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:  140ms;
+  --dur-base:  220ms;
+  --dur-slow:  360ms;
+}
+
+/* =====================================================================
+ * SEMANTIC ELEMENT STYLES
+ * Classes map 1:1 to how SaaScend uses type on saascend.com.
+ * ===================================================================== */
+
+html, body {
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  line-height: var(--lh-relaxed);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display — hero headlines, e.g. "You can't build RevOps without…" */
+.ss-display,
+h1.ss-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(var(--fs-40), 4.5vw, var(--fs-64));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-strong);
+}
+
+/* H1 — page titles */
+.ss-h1, h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(var(--fs-32), 3.2vw, var(--fs-48));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-strong);
+  margin: 0;
+}
+
+/* H2 — section titles in the signature cyan, e.g. "The SaaScend Difference" */
+.ss-h2, h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(var(--fs-28), 2.4vw, var(--fs-40));
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--brand-cyan);  /* signature move — section headers are cyan */
+  margin: 0;
+}
+
+/* H3 — card titles ("Strategy", "Process", etc.) */
+.ss-h3, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-20);
+  line-height: var(--lh-snug);
+  color: var(--fg-strong);
+  margin: 0;
+}
+
+/* H4 — minor section labels */
+.ss-h4, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-18);
+  line-height: var(--lh-snug);
+  color: var(--fg-strong);
+  margin: 0;
+}
+
+/* Eyebrow — "SINGULAR FOCUS", "FAST RAMP-UP", etc. */
+.ss-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-13);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--brand-cyan);
+}
+
+.ss-eyebrow--ink {
+  color: var(--fg-strong);
+  letter-spacing: var(--tracking-caps);
+}
+
+/* Body */
+.ss-p, p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-16);
+  line-height: var(--lh-relaxed);
+  color: var(--fg);
+  margin: 0;
+}
+
+.ss-p--sm, .ss-small {
+  font-size: var(--fs-14);
+  line-height: var(--lh-relaxed);
+}
+
+.ss-lead {
+  font-size: var(--fs-18);
+  line-height: var(--lh-relaxed);
+  color: var(--fg);
+}
+
+/* Quote — used in testimonials, bold italic body */
+.ss-quote {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--fs-15);
+  line-height: var(--lh-relaxed);
+  color: var(--fg);
+}
+
+.ss-quote-bold {
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Cite — attribution under a quote */
+.ss-cite {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-14);
+  color: var(--fg-strong);
+}
+.ss-cite small {
+  display: block;
+  font-weight: 400;
+  color: var(--fg-muted);
+}
+
+/* Link */
+.ss-link, a {
+  color: var(--accent-link);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.ss-link:hover, a:hover { color: var(--brand-cyan); }
+
+/* Code / mono */
+.ss-code, code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--ink-100);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  color: var(--fg-strong);
+}
+
+/* Utilities */
+.ss-on-dark  { color: var(--fg-on-dark); }
+.ss-on-dark .ss-h2 { color: var(--fg-on-dark); }
+.ss-muted    { color: var(--fg-muted); }
+.ss-center   { text-align: center; }

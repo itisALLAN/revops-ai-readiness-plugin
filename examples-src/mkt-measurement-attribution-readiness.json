@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-measurement-attribution-readiness", "name": "Measurement & Attribution Readiness", "team": "marketing", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/marketing/campaign-reporting.csv", "description": "8 campaign-month rows across 6 channels", "records": 8 }],
+  "summary": {
+    "headline": "Your reporting mixes three attribution models, never closes the loop on revenue, and has no fast alert — you would not catch AI output tanking conversion until the quarter closed.",
+    "narrative": "Across 8 campaign rows the attribution model switches between First-touch, Last-touch, and Multi-touch, so revenue is not comparable row to row. There is no cadence tying won revenue back to originating content fast enough to act, and no leading-indicator alerting on bounce, unsubscribe, or conversion drops. Standardize attribution, close the loop weekly, and add a circuit-breaker alert before enabling any AI content step.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Campaign rows", "value": "8", "tone": "neutral" },
+      { "label": "Attribution models in use", "value": "3", "tone": "warn" },
+      { "label": "Total spend tracked", "value": "$68,500", "tone": "neutral" },
+      { "label": "Leading-indicator alerts", "value": "0", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "MEAS-001",
+      "title": "Three attribution models mixed in one report",
+      "severity": "high",
+      "category": "Attribution consistency",
+      "what_we_found": "The reporting credits revenue using First-touch (Webinar Q1, Content Syndication), Last-touch (Paid Search, Newsletter, Paid Social, Referral Program), and Multi-touch (Tradeshow) on different rows of the same export.",
+      "why_it_blocks_ai": "Numbers are not comparable row to row, so an AI optimizing spend or content against them would chase artifacts of the model rather than real performance.",
+      "the_fix": [
+        "Pick one primary attribution model and apply it consistently across all campaigns.",
+        "If multiple models are needed, report them in parallel columns, never mixed per-row.",
+        "Re-baseline historical rows to the chosen model before any AI optimizes against the data."
+      ],
+      "affected": ["Webinar Q1", "Paid Search", "Content Syndication", "Tradeshow", "Referral Program"],
+      "evidence": "attribution_model column contains 'First-touch', 'Last-touch', and 'Multi-touch' across the 8 rows.",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "MEAS-002",
+      "title": "No closed feedback loop on conversion and revenue",
+      "severity": "high",
+      "category": "Feedback loop",
+      "what_we_found": "Reporting shows leads through won/revenue by campaign-month, but there is no evidence won revenue is tied back to the originating content on a cadence fast enough to act — two channels (Content Syndication, Paid Social) show 0 won with no follow-up signal.",
+      "why_it_blocks_ai": "Without a closed loop, an AI's content output cannot be evaluated and corrected; underperforming output would keep running and the failure would compound silently.",
+      "the_fix": [
+        "Tie won revenue back to the originating campaign/content on a weekly or faster cadence.",
+        "Define a per-content conversion baseline so deviations are detectable.",
+        "Review the loop with a named owner before any AI content step goes live."
+      ],
+      "affected": ["Content Syndication", "Paid Social"],
+      "evidence": "Monthly rollup only; 0-won rows with no downstream tie-back.",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "MEAS-003",
+      "title": "No leading-indicator alerting",
+      "severity": "critical",
+      "category": "Alerting",
+      "what_we_found": "Reporting is monthly and lagging; there is no leading-indicator alerting on bounce/unsubscribe spikes, conversion-rate drops, or deliverability dips that would fire within hours.",
+      "why_it_blocks_ai": "A leading-indicator alert is the circuit-breaker that lets a human pause an AI content step before damage goes broad. Without it, an AI could degrade conversion or deliverability for weeks before anyone notices.",
+      "the_fix": [
+        "Instrument leading indicators: bounce rate, unsubscribe rate, reply/spam complaints, conversion-rate delta, deliverability score.",
+        "Set thresholds that fire within hours to a named human owner.",
+        "Document a pause/rollback action tied to the alert as the AI-step circuit-breaker."
+      ],
+      "affected": ["measurement pipeline"],
+      "evidence": "No alerting or leading-indicator columns present in the reporting export.",
+      "owner_role": "Head of Marketing"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "revops-ai-readiness-suite",
+  "version": "0.1.0",
+  "description": "SaaScend RevOps AI Readiness Suite — assess and take a first safe step into AI across Customer Success, Sales, Marketing, and RevOps. Produces actionable branded deliverables and machine-readable JSON. Assessments, blueprints, and drafts only — a human owns every action; the suite provisions and deploys nothing.",
+  "author": {
+    "name": "SaaScend",
+    "url": "https://www.saascend.com"
+  },
+  "homepage": "https://www.saascend.com",
+  "keywords": ["revops", "ai-readiness", "sales", "marketing", "customer-success", "saascend"]
+}

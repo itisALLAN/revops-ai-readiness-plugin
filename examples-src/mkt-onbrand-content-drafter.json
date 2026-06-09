@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-onbrand-content-drafter", "name": "On-Brand Content Drafter", "team": "marketing", "kind": "activation" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "json-artifact", "ref": "mkt-brand-codex-builder", "description": "Brand codex grounding the draft" },
+    { "type": "text", "ref": "brief: repurpose the risky /ai-best-in-class post into a safe, on-brand piece on getting revenue teams AI-ready" }
+  ],
+  "summary": {
+    "headline": "A first safe draft — repurposes the risky 'best-in-class' post into an on-voice piece that names a concrete deliverable and avoids every banned claim.",
+    "narrative": "Grounded in the brand codex, this draft takes the brief behind the risky /ai-best-in-class post and rewrites it on-voice: the summit metaphor, we->you address, and a concrete deliverable. It passed the claims self-check (no superlatives, comparisons, or guarantees) and the distinctiveness self-check (no banned filler). It is a draft for human review — nothing is published.",
+    "ai_ready": null
+  },
+  "drafts": [
+    {
+      "kind": "on-brand-content",
+      "title": "Getting Your Revenue Team AI-Ready (without betting the brand on it)",
+      "content": "**You can't automate a mess — and you can't let an AI write your way out of one either.**\n\nGetting a revenue team AI-ready isn't about buying the loudest platform. It's the map you build before the climb: clean the pipeline, agree on definitions, and decide what an AI is allowed to do before it does anything.\n\nStart with three concrete deliverables. A governed glossary so 'MQL' and 'Qualified' mean the same thing to marketing and sales. A claims standard so nothing reaches the market that you can't substantiate. And an approval gate so an AI assists your team long before it ever acts on its own.\n\nDo that, and AI stops being a risk you're bracing for and becomes the next stretch of the climb — taken with intention.",
+      "grounded_on": [
+        "readiness-output/marketing/mkt-brand-codex-builder.json (voice, summit metaphor, approved language, banned language)",
+        "brief: repurpose https://blog.example.com/ai-best-in-class into a safe on-brand piece"
+      ],
+      "flags": [
+        "Deliberately avoided 'best-in-class', 'industry-leading', and '#1' — no substantiation on file (claims self-check).",
+        "Deliberately avoided the 'guaranteed to double your pipeline / money back' promise from the source post — outcome guarantee, Legal sign-off territory.",
+        "Deliberately avoided the comparative 'unlike every competitor' claim — unsubstantiated.",
+        "Avoided codex banned filler ('leverage synergies', 'holistic end-to-end') per the distinctiveness check.",
+        "This is a draft for human review — it has not been and must not be auto-published."
+      ]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

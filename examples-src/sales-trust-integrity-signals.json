@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "sales-trust-integrity-signals", "name": "Trust & Integrity Signals", "team": "sales", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/sales/opportunities.csv", "description": "20 opportunities", "records": 20 },
+    { "type": "file", "ref": "fixtures/sales/activities.csv", "description": "15 logged activities", "records": 15 }
+  ],
+  "summary": {
+    "headline": "A few patterns are worth a conversation — close dates cluster on period ends and optional fields go unfilled — but these are signals to investigate, not conclusions.",
+    "narrative": "These are signals to investigate with curiosity, not accusations against any rep. We see close dates clustering on quarter/month ends and next steps populated only where they seem to be enforced. Patterns like these usually point to incentives and process, not bad actors — start there before changing the system, and never feed un-investigated patterns to an AI as truth.",
+    "ai_ready": null,
+    "blocking_count": 0,
+    "stats": [
+      { "label": "Signals raised", "value": "3", "tone": "warn" },
+      { "label": "Close dates on a period end", "value": "5 of 17 open", "tone": "warn" },
+      { "label": "Conclusions drawn", "value": "0 (signals only)", "tone": "good" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "EOQ_CLIFF_SIGNAL",
+      "title": "Signal to investigate: close dates cluster on month/quarter ends",
+      "severity": "medium",
+      "category": "Period-end behaviour",
+      "what_we_found": "Several open and recent deals carry close dates on period boundaries: OPP-2002 and OPP-2016 on 2026-01-31, OPP-2006 on 2025-12-31, OPP-2007 closed 2025-12-20. This is a pattern to explore, not evidence of anything.",
+      "why_it_blocks_ai": "If close dates are set by the calendar rather than the deal, an AI forecasting on them learns the calendar, not reality. Worth understanding before an AI consumes close dates.",
+      "the_fix": [
+        "Investigate with the team why dates land on period ends — it may be genuine procurement timing.",
+        "Check whether forecasting incentives encourage end-of-period bunching.",
+        "Treat this as a discussion starter, not a verdict on any rep."
+      ],
+      "affected": ["OPP-2002", "OPP-2006", "OPP-2007", "OPP-2016"],
+      "evidence": "close_date values on 2025-12-31, 2025-12-20, 2026-01-31.",
+      "owner_role": "Sales Leadership"
+    },
+    {
+      "id": "FORCED_FIELD_COMPLETION_SIGNAL",
+      "title": "Signal to investigate: optional fields filled only where seemingly required",
+      "severity": "medium",
+      "category": "Minimum-effort entry",
+      "what_we_found": "next_step is consistently populated on early-stage outbound deals with booked calls but blank on several mid/late-stage deals (OPP-2003, OPP-2006, OPP-2013, OPP-2019), hinting reps may fill fields only where enforced. This is a hypothesis to check, not a finding of fault.",
+      "why_it_blocks_ai": "If fields are completed only under enforcement, the data reflects the rule set, not the deal — an AI would mistake compliance for signal.",
+      "the_fix": [
+        "Investigate whether the blanks track a missing validation rule rather than rep intent.",
+        "Make the field genuinely useful (and required where it matters) so completion is honest, not forced.",
+        "Confirm the pattern with the team before drawing any conclusion."
+      ],
+      "affected": ["OPP-2003", "OPP-2006", "OPP-2013", "OPP-2019"],
+      "evidence": "Blank next_step concentrated on later-stage deals.",
+      "owner_role": "Sales Operations"
+    },
+    {
+      "id": "INCENTIVE_ALIGNMENT",
+      "title": "Recommendation: align incentives before policing the data",
+      "severity": "low",
+      "category": "Incentives",
+      "what_we_found": "The patterns above commonly trace back to how reps are measured — pull-forward credit, period-end quota pressure, or fields tied to compensation gates.",
+      "why_it_blocks_ai": "Policing the data without fixing the incentive just moves the gaming elsewhere; an AI built on incentive-distorted data inherits the distortion.",
+      "the_fix": [
+        "Review comp and forecast incentives against the behaviours these signals hint at.",
+        "Make accurate, complete data the path of least resistance for reps.",
+        "Re-run this assessment after incentive changes to see if the signals fade."
+      ],
+      "affected": ["Sales comp plan", "Forecast process"],
+      "evidence": "Patterns above are consistent with period-driven incentives.",
+      "owner_role": "Sales Leadership"
+    }
+  ],
+  "disclaimers": [
+    "These are signals to investigate, not conclusions about any individual. Patterns can have legitimate explanations; confirm with the team before acting."
+  ],
+  "cta": { "line": "If you'd like help getting your Sales team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

@@ -1,0 +1,26 @@
+case_number,subject,status,created_date,closed_date,csm,priority,notes,reported_category
+CS-1001,How do I reset my password,Closed,2026-01-04,2026-01-04,Dana Reyes,Low,Sent self-serve reset link,Account access
+CS-1002,SSO login fails with SAML error,Closed,2026-01-05,2026-01-09,Priya Shah,High,Misconfigured IdP cert; walked admin through fix,Account access
+CS-1003,Refund for duplicate charge,Closed,2026-01-06,2026-01-12,Dana Reyes,High,Escalated to billing; refund issued,Billing dispute
+CS-1004,Export not finishing for large dataset,Closed,2026-01-07,2026-01-15,Marcus Webb,Medium,Backend timeout; eng patched,Product bug
+CS-1005,How to invite teammates,Closed,2026-01-08,2026-01-08,Dana Reyes,Low,Pointed to admin settings,Onboarding
+CS-1006,Disputed annual invoice amount,Closed,2026-01-09,2026-01-20,Priya Shah,High,Sales contract mismatch; legal looped in,Billing dispute
+CS-1007,API rate limit unclear,Closed,2026-01-10,2026-01-13,Marcus Webb,Medium,No KB article exists on limits,Developer
+CS-1008,Webhook not firing,Closed,2026-01-11,2026-01-18,Marcus Webb,High,Endpoint TLS issue on customer side,Developer
+CS-1009,Cancel my subscription,Closed,2026-01-12,2026-01-14,Dana Reyes,Medium,Retention offer declined,Billing dispute
+CS-1010,Change billing owner,Closed,2026-01-13,2026-01-13,Priya Shah,Low,Updated billing contact,Account admin
+CS-1011,Data residency / GDPR question,Closed,2026-01-14,2026-01-22,Priya Shah,High,Legal/regulated; no KB; ad hoc answer,Compliance
+CS-1012,How to set up SSO,Closed,2026-01-15,2026-01-17,Marcus Webb,Medium,Walked through; KB article outdated,Account access
+CS-1013,Report scheduling broken,Closed,2026-01-16,2026-01-19,Marcus Webb,Medium,Known bug; workaround given,Product bug
+CS-1014,Upgrade to Enterprise plan,Closed,2026-01-17,2026-01-18,Dana Reyes,Low,Routed to sales,Billing dispute
+CS-1015,Reset password (locked out),Closed,2026-01-18,2026-01-18,Dana Reyes,Low,Self-serve link,Account access
+CS-1016,SAML metadata URL not accepted,Closed,2026-01-19,2026-01-23,Priya Shah,High,IdP quirk; documented internally only,Account access
+CS-1017,Invoice tax exemption,Closed,2026-01-20,2026-01-27,Priya Shah,Medium,Finance handled; no KB,Billing dispute
+CS-1018,How to bulk import contacts,Closed,2026-01-21,2026-01-22,Marcus Webb,Low,CSV template shared,Onboarding
+CS-1019,Charged after cancellation,Closed,2026-01-22,2026-01-29,Dana Reyes,High,Refund + apology,Billing dispute
+CS-1020,API key rotation steps,Open,2026-01-23,,Marcus Webb,Medium,No article; awaiting eng,Developer
+CS-1021,Security questionnaire request,Open,2026-01-24,,Priya Shah,High,Regulated; manual,Compliance
+CS-1022,Where are my exports stored,Closed,2026-01-25,2026-01-26,Marcus Webb,Low,Explained retention,Product
+CS-1023,Reset password,Closed,2026-01-26,2026-01-26,Dana Reyes,Low,Self-serve,Account access
+CS-1024,Dispute overage charges,Open,2026-01-27,,Priya Shah,High,Billing dispute pending,Billing dispute
+CS-1025,How to connect Salesforce,Closed,2026-01-28,2026-01-30,Marcus Webb,Medium,Integration guide outdated,Integrations

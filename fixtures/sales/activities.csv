@@ -1,0 +1,16 @@
+activity_id,opp_id,type,date,owner,subject,logged
+ACT-3001,OPP-2001,Call,2026-01-06,A. Cole,Discovery call - pains around reporting,Yes
+ACT-3002,OPP-2001,Email,2026-01-08,A. Cole,Recap + next steps,Yes
+ACT-3003,OPP-2002,Meeting,2025-11-05,B. Ng,Expansion scoping,Yes
+ACT-3004,OPP-2003,Call,2025-12-02,A. Cole,Renewal kickoff,Yes
+ACT-3005,OPP-2005,Call,2026-01-09,B. Ng,Qualification - budget unclear,Yes
+ACT-3006,OPP-2005,Email,2026-01-11,B. Ng,Sent pricing,Yes
+ACT-3007,OPP-2007,Meeting,2025-09-03,A. Cole,Exec alignment,Yes
+ACT-3008,OPP-2010,Call,2025-12-12,A. Cole,Negotiation - terms,Yes
+ACT-3009,OPP-2013,Email,2025-11-22,A. Cole,Proposal sent,Yes
+ACT-3010,OPP-2015,Meeting,2026-01-04,A. Cole,Stakeholder mapping,Yes
+ACT-3011,OPP-2016,Call,2025-12-23,B. Ng,Procurement intro,Yes
+ACT-3012,OPP-2018,Meeting,2026-01-10,A. Cole,Exec sponsor intro,Yes
+ACT-3013,OPP-2019,Email,2025-11-12,B. Ng,Proposal sent,Yes
+ACT-3014,OPP-2002,Call,2026-01-20,B. Ng,Pricing pushback,Yes
+ACT-3015,OPP-2018,Call,2026-01-22,A. Cole,Security review,Yes

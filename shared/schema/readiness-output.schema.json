@@ -1,0 +1,238 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://saascend.com/schemas/readiness-output.schema.json",
+  "title": "RevOps AI Readiness Suite — Dual-Output Artifact",
+  "description": "The machine-readable half of every tool's dual output. One JSON per run, written to readiness-output/<team>/<tool-id>.json. The branded HTML deliverable is rendered from this same object, so the two artifacts cannot drift. RevOps consumer tools (semantic-reconciler, control-plane-blueprint, org-wide-roadmap) ingest these files from other tools.",
+  "type": "object",
+  "required": ["schema_version", "tool", "generated_at", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "tool": {
+      "type": "object",
+      "required": ["id", "name", "team", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Stable tool/skill id, e.g. 'cs-intent-scope-mapper'. Matches the skill folder name."
+        },
+        "name": { "type": "string", "description": "Human-readable tool name." },
+        "team": {
+          "type": "string",
+          "enum": ["customer-success", "sales", "marketing", "revops"]
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["readiness", "activation", "synthesis"],
+          "description": "readiness = assessment/diagnostic; activation = drafts a human-owned artifact; synthesis = RevOps tool consuming other tools' JSON."
+        },
+        "flagship": { "type": "boolean", "default": false }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "ISO-8601 timestamp of the run."
+    },
+    "inputs": {
+      "type": "array",
+      "description": "What the operator supplied this run.",
+      "items": {
+        "type": "object",
+        "required": ["type", "ref"],
+        "additionalProperties": false,
+        "properties": {
+          "type": { "type": "string", "enum": ["file", "url", "gdrive", "json-artifact", "text"] },
+          "ref": { "type": "string", "description": "Filename, URL, or upstream artifact id." },
+          "description": { "type": "string" },
+          "records": { "type": "integer", "description": "Row/record count if tabular." }
+        }
+      },
+      "default": []
+    },
+    "summary": {
+      "type": "object",
+      "required": ["headline"],
+      "additionalProperties": false,
+      "properties": {
+        "headline": { "type": "string", "description": "One-line plain-language verdict. Actionable, not a score." },
+        "narrative": { "type": "string", "description": "2-4 sentence framing of what was assessed and the single most important next step." },
+        "ai_ready": {
+          "type": ["boolean", "null"],
+          "description": "Whether this dimension is ready for a safe AI first step. null when not a yes/no question."
+        },
+        "blocking_count": { "type": "integer", "minimum": 0, "description": "Number of findings that must be fixed before an AI first step is safe." },
+        "stats": {
+          "type": "array",
+          "description": "Headline figures for the deliverable's stat band.",
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string" },
+              "value": { "type": "string" },
+              "tone": { "type": "string", "enum": ["neutral", "good", "warn", "danger"], "default": "neutral" }
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "Actionable changes. Each finding tells the operator exactly what to fix and why it blocks a safe AI step. Used by readiness/synthesis tools.",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "severity", "what_we_found", "why_it_blocks_ai", "the_fix"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+          "title": { "type": "string" },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "category": { "type": "string", "description": "Grouping label, e.g. 'Retrieval plumbing', 'Stage hygiene'." },
+          "what_we_found": { "type": "string" },
+          "why_it_blocks_ai": { "type": "string", "description": "The AI-readiness consequence of leaving it unfixed." },
+          "the_fix": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "description": "Concrete, ordered steps a human takes to remediate."
+          },
+          "affected": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Entities implicated (article URLs, stage names, field names, records)."
+          },
+          "evidence": { "type": "string", "description": "The data point that triggered this finding." },
+          "owner_role": { "type": "string", "description": "Suggested human owner of the fix." }
+        }
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "description": "Glossary terms for the semantic layer. Emitted by tools that touch shared definitions (MQL, qualified, customer, churn, ARR). The semantic-reconciler ingests these across teams to surface conflicts.",
+      "items": {
+        "type": "object",
+        "required": ["term", "definition", "source_team"],
+        "additionalProperties": false,
+        "properties": {
+          "term": { "type": "string" },
+          "definition": { "type": "string" },
+          "source_team": { "type": "string", "enum": ["customer-success", "sales", "marketing", "revops"] },
+          "derived_from": { "type": "string", "description": "Field/report/source the definition was inferred from." }
+        }
+      }
+    },
+    "drafts": {
+      "type": "array",
+      "description": "Human-owned draft artifacts produced by activation tools. NEVER sent or written anywhere by the tool — the operator copies/uses them.",
+      "items": {
+        "type": "object",
+        "required": ["kind", "title", "content"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "type": "string", "description": "e.g. 'kb-grounded-reply', 'crm-deal-update', 'brand-codex', 'on-brand-content'." },
+          "title": { "type": "string" },
+          "content": { "type": "string", "description": "The draft text. Markdown allowed; rendered into the deliverable." },
+          "grounded_on": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Citations / sources the draft is grounded on."
+          },
+          "flags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Explicit caveats, e.g. 'Current KB cannot answer part 2 of this question.'"
+          }
+        }
+      }
+    },
+    "codex": {
+      "type": "object",
+      "description": "Marketing brand codex payload. Emitted by mkt-brand-codex-builder and consumed by distinctiveness-guard and on-brand-content-drafter.",
+      "additionalProperties": true
+    },
+    "consumed_artifacts": {
+      "type": "array",
+      "description": "For synthesis tools: which upstream JSON artifacts fed this run.",
+      "items": {
+        "type": "object",
+        "required": ["tool_id", "team"],
+        "additionalProperties": false,
+        "properties": {
+          "tool_id": { "type": "string" },
+          "team": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      }
+    },
+    "roadmap": {
+      "type": "array",
+      "description": "Prioritised, sequenced actions for the capstone org-wide-roadmap. Each item traces a team-level symptom to a root RevOps-level cause.",
+      "items": {
+        "type": "object",
+        "required": ["rank", "action", "root_cause"],
+        "additionalProperties": false,
+        "properties": {
+          "rank": { "type": "integer", "minimum": 1 },
+          "action": { "type": "string" },
+          "root_cause": { "type": "string", "description": "The RevOps-level cause behind the surface symptoms." },
+          "symptoms": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Team-level findings this action resolves, ideally referencing source tool ids."
+          },
+          "teams": { "type": "array", "items": { "type": "string" } },
+          "effort": { "type": "string", "enum": ["S", "M", "L"] },
+          "sequence": { "type": "string", "enum": ["now", "next", "later"] }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "description": "Cross-team definition conflicts surfaced by the semantic-reconciler.",
+      "items": {
+        "type": "object",
+        "required": ["term", "positions"],
+        "additionalProperties": false,
+        "properties": {
+          "term": { "type": "string" },
+          "positions": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["team", "definition"],
+              "additionalProperties": false,
+              "properties": {
+                "team": { "type": "string" },
+                "definition": { "type": "string" }
+              }
+            }
+          },
+          "impact": { "type": "string", "description": "What breaks for an AI agent when these disagree." },
+          "recommended_canonical": { "type": "string", "description": "Proposed governed definition." }
+        }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "required": ["line", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "line": { "type": "string", "description": "Single soft CTA line." },
+        "url": { "type": "string" }
+      }
+    },
+    "disclaimers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "e.g. compliance content labelled 'Guidance, not legal advice.'",
+      "default": []
+    }
+  }
+}

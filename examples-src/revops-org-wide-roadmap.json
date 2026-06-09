@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "revops-org-wide-roadmap", "name": "Org-Wide AI-Readiness Roadmap", "team": "revops", "kind": "synthesis", "flagship": true },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "json-artifact", "ref": "readiness-output/index.json", "description": "All available team tool outputs" }],
+  "summary": {
+    "headline": "Fix the missing governed glossary first — it's the root behind four separate team symptoms.",
+    "narrative": "Marketing, Sales and Customer Success each report a different surface problem, but three of them trace to one RevOps-level root: there is no governed glossary and no owner of shared definitions. Patch the root before the team-level symptoms. A second root — broken object/handoff integrity — blocks trustworthy AI routing.",
+    "stats": [
+      { "label": "Artifacts ingested", "value": "6", "tone": "neutral" },
+      { "label": "Teams covered", "value": "4 of 4", "tone": "good" },
+      { "label": "Symptoms clustered", "value": "11", "tone": "neutral" },
+      { "label": "Root causes", "value": "3", "tone": "warn" }
+    ]
+  },
+  "consumed_artifacts": [
+    { "tool_id": "cs-intent-scope-mapper", "team": "customer-success", "path": "customer-success/cs-intent-scope-mapper.json" },
+    { "tool_id": "sales-stage-qualification-readiness", "team": "sales", "path": "sales/sales-stage-qualification-readiness.json" },
+    { "tool_id": "sales-transcript-deal-update", "team": "sales", "path": "sales/sales-transcript-deal-update.json" },
+    { "tool_id": "mkt-audience-consent-readiness", "team": "marketing", "path": "marketing/mkt-audience-consent-readiness.json" },
+    { "tool_id": "mkt-brand-codex-builder", "team": "marketing", "path": "marketing/mkt-brand-codex-builder.json" },
+    { "tool_id": "revops-data-architecture-handoff", "team": "revops", "path": "revops/revops-data-architecture-handoff.json" }
+  ],
+  "roadmap": [
+    {
+      "rank": 1, "action": "Stand up a governed glossary with a named owner; reconcile MQL/'qualified'/customer first.",
+      "root_cause": "No governed glossary and no owner of shared definitions — every team defines core terms differently.",
+      "symptoms": [
+        "marketing & sales disagree weekly on 'qualified' (deal-update transcript)",
+        "MQL flag set inconsistently across lead sources (mkt-audience-consent-readiness)",
+        "stages not differentiated in data (sales-stage-qualification-readiness)",
+        "out-of-scope intents undefined for CS (cs-intent-scope-mapper)"
+      ],
+      "teams": ["revops", "marketing", "sales", "customer-success"], "effort": "M", "sequence": "now"
+    },
+    {
+      "rank": 2, "action": "Repair object & handoff integrity: orphaned opps, broken lead→opp seams, duplicate accounts.",
+      "root_cause": "No referential-integrity discipline on the lead→opp→case spine, so AI routing can't trust the graph.",
+      "symptoms": [
+        "orphaned opportunity with no account (revops-data-architecture-handoff)",
+        "lead converted to a non-existent opp (revops-data-architecture-handoff)",
+        "duplicate account keys (revops-data-architecture-handoff)"
+      ],
+      "teams": ["revops", "sales"], "effort": "L", "sequence": "now"
+    },
+    {
+      "rank": 3, "action": "Close the consent/identity gaps before any marketing AI touches a contact.",
+      "root_cause": "No shared consent + identity model — consent basis is 'unknown' on a third of MQLs.",
+      "symptoms": [
+        "33% of MQLs have unknown/absent consent (mkt-audience-consent-readiness)",
+        "cold-list leads with no consent record (mkt-audience-consent-readiness)"
+      ],
+      "teams": ["marketing", "revops"], "effort": "M", "sequence": "next"
+    },
+    {
+      "rank": 4, "action": "Author missing CS grounding articles (rate limits, billing-dispute scope) and a measurement feedback loop.",
+      "root_cause": "No retrieval-readiness or measurement loop to catch AI output degrading before damage spreads.",
+      "symptoms": [
+        "38% of common intents have no KB article (cs-intent-scope-mapper)",
+        "no feedback loop on AI output quality (marketing measurement gap)"
+      ],
+      "teams": ["customer-success", "marketing", "revops"], "effort": "M", "sequence": "later"
+    }
+  ],
+  "cta": { "line": "If you'd like help executing this roadmap, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

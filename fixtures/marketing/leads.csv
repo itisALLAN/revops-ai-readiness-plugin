@@ -1,0 +1,16 @@
+lead_id,email,created_date,lifecycle_stage,source,consent_status,consent_date,subscription_status,mql_flag,segment
+LD-4001,a@northwind.test,2026-01-02,MQL,Webinar,Opt-in,2026-01-02,Subscribed,Yes,Enterprise
+LD-4002,b@globex.test,2026-01-03,Lead,Content download,Unknown,,Subscribed,No,
+LD-4003,c@initech.test,2026-01-04,SQL,Referral,Opt-in,2025-12-01,Subscribed,Yes,Enterprise
+LD-4004,d@hooli.test,2026-01-05,Subscriber,Newsletter,Opt-in,2026-01-05,Subscribed,No,SMB
+LD-4005,e@soylent.test,2026-01-06,MQL,Paid ad,Unknown,,Subscribed,Yes,
+LD-4006,f@umbrella.test,2026-01-07,Lead,Tradeshow,Soft opt-in,2026-01-07,Subscribed,No,Mid-market
+LD-4007,g@stark.test,2026-01-08,Customer,Referral,Opt-in,2025-06-01,Subscribed,Yes,Enterprise
+LD-4008,h@wayne.test,2026-01-09,MQL,Content download,Unknown,,Unsubscribed,Yes,
+LD-4009,i@tyrell.test,2026-01-10,Lead,Webinar,Opt-in,2026-01-10,Subscribed,No,Mid-market
+LD-4010,j@wonka.test,2026-01-11,MQL,Paid ad,Unknown,,Bounced,Yes,
+LD-4011,k@acme.test,2026-01-12,Lead,Cold list,No record,,Subscribed,No,
+LD-4012,l@gekko.test,2026-01-13,SQL,Event,Opt-in,2026-01-13,Subscribed,Yes,Enterprise
+LD-4013,m@duff.test,2026-01-14,Subscriber,Newsletter,Opt-in,2026-01-14,Subscribed,No,SMB
+LD-4014,n@oscorp.test,2026-01-15,MQL,Cold list,No record,,Subscribed,Yes,
+LD-4015,o@bluth.test,2026-01-16,Lead,Content download,Unknown,,Subscribed,No,

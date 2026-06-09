@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "mkt-audience-consent-readiness", "name": "Audience & Consent Readiness", "team": "marketing", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [{ "type": "file", "ref": "fixtures/marketing/leads.csv", "description": "15-row lead export", "records": 15 }],
+  "summary": {
+    "headline": "About a third of your MQLs have no consent on record, suppressed leads are still marked active, and 'MQL' means something broader to marketing than to sales — fix all three before an AI touches this list.",
+    "narrative": "Of 6 MQL-flagged leads, 5 carry 'Unknown' or 'No record' consent — roughly a third of marketable records have no lawful basis. Two suppressed leads (Unsubscribed, Bounced) are still flagged MQL, and cold-list leads have no consent at all. Marketing's MQL definition is also broader than sales' 'Qualified', so the same lead means different things to each team. Re-permission consent, suppress at source, and govern one MQL definition before enabling any AI targeting.",
+    "ai_ready": false,
+    "blocking_count": 3,
+    "stats": [
+      { "label": "Leads", "value": "15", "tone": "neutral" },
+      { "label": "MQLs without consent", "value": "~33%", "tone": "danger" },
+      { "label": "Suppressed but still active", "value": "2", "tone": "danger" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "CONSENT-001",
+      "title": "About a third of MQLs have no consent on record",
+      "severity": "critical",
+      "category": "Consent basis",
+      "what_we_found": "Of 6 MQL-flagged leads, 5 carry consent_status 'Unknown' or 'No record' (LD-4005, LD-4008, LD-4010, LD-4014, plus LD-4002 at lead stage) — roughly a third of marketable records have no lawful basis recorded.",
+      "why_it_blocks_ai": "An AI that segments or messages this list would target records with no provable consent, turning a data gap into a compliance and deliverability incident at machine speed.",
+      "the_fix": [
+        "Exclude every 'Unknown'/'No record' consent lead from any AI-targetable segment until a lawful basis is on file.",
+        "Run a re-permission / preference-confirmation pass to backfill consent where possible.",
+        "Make consent_status a required, validated field at lead capture."
+      ],
+      "affected": ["LD-4002", "LD-4005", "LD-4008", "LD-4010", "LD-4014"],
+      "evidence": "consent_status = 'Unknown' or 'No record' on 5 of 6 MQL-flagged leads.",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "CONSENT-002",
+      "title": "Suppressed leads still flagged as active MQLs",
+      "severity": "high",
+      "category": "Suppression hygiene",
+      "what_we_found": "LD-4008 (Unsubscribed) and LD-4010 (Bounced) are still flagged mql_flag = Yes and would be picked up by any active-audience query.",
+      "why_it_blocks_ai": "An AI building an audience from active MQLs would re-message people who opted out or whose address bounced, damaging deliverability and breaching their stated preference.",
+      "the_fix": [
+        "Suppress Unsubscribed and Bounced records at the source so they cannot enter a marketable audience.",
+        "Add a guard that excludes any non-Subscribed subscription_status from MQL/active segments.",
+        "Reconcile mql_flag against subscription_status on a schedule."
+      ],
+      "affected": ["LD-4008", "LD-4010"],
+      "evidence": "subscription_status 'Unsubscribed'/'Bounced' with mql_flag = 'Yes'.",
+      "owner_role": "Marketing Ops"
+    },
+    {
+      "id": "CONSENT-003",
+      "title": "Cold-list leads carry no consent",
+      "severity": "high",
+      "category": "Consent basis",
+      "what_we_found": "LD-4011 and LD-4014 originate from a 'Cold list' source with consent_status 'No record'.",
+      "why_it_blocks_ai": "Cold, unconsented leads are out of scope for any AI messaging step; an AI that includes them would message people with no relationship or lawful basis. Align with the org-wide roadmap on cold-list scope.",
+      "the_fix": [
+        "Quarantine all cold-list, unconsented leads from AI-targetable segments.",
+        "Establish a lawful basis (explicit opt-in) before any outreach.",
+        "Flag cold-list scope to the org-wide roadmap so the boundary is governed centrally."
+      ],
+      "affected": ["LD-4011", "LD-4014"],
+      "evidence": "source = 'Cold list', consent_status = 'No record'.",
+      "owner_role": "Head of Marketing"
+    },
+    {
+      "id": "CONSENT-004",
+      "title": "Marketing's MQL definition is broader than sales' Qualified",
+      "severity": "high",
+      "category": "Semantic consistency",
+      "what_we_found": "Marketing flags an MQL on a score threshold OR a content download, regardless of budget or authority — broader than sales' 'Qualified' (budget confirmed AND economic buyer identified).",
+      "why_it_blocks_ai": "The same lead means different things to each team; an AI routing or scoring on 'MQL' would hand sales records they do not consider qualified, breaking the handoff.",
+      "the_fix": [
+        "Convene marketing and sales to agree one canonical, governed MQL/Qualified definition.",
+        "Encode the shared definition in both systems before any AI routes or scores a lead.",
+        "Submit both definitions to the semantic-reconciler to confirm the conflict is resolved."
+      ],
+      "affected": ["MQL", "Qualified"],
+      "evidence": "Marketing MQL = score OR content download; sales Qualified = budget AND economic buyer.",
+      "owner_role": "RevOps"
+    }
+  ],
+  "definitions": [
+    {
+      "term": "MQL",
+      "definition": "MQL = a lead whose score is above the marketing threshold OR who completed a content download, regardless of budget or authority.",
+      "source_team": "marketing",
+      "derived_from": "leads.csv mql_flag column and lifecycle_stage = 'MQL' rows"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Marketing team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" }
+}

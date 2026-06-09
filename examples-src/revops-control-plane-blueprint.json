@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "revops-control-plane-blueprint", "name": "Control Plane Blueprint", "team": "revops", "kind": "synthesis" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "json-artifact", "ref": "readiness-output/index.json", "description": "Team deployment-guardrails packs" }
+  ],
+  "summary": {
+    "headline": "One central control plane — not three — should govern every AI agent: here is the identity, audit, governance, and guardrail blueprint to build.",
+    "narrative": "Synthesized from the Customer Success and Sales deployment-guardrails packs. The Marketing guardrails pack (mkt-deployment-guardrails) was not present in readiness-output, so the data-governance and catalog elements below cover CS and Sales only — re-run this blueprint once the Marketing pack exists to close that gap. The blueprint reconciles the packs into one least-privilege identity model, one unified audit trail, one PII/retention governance policy, and one central guardrail catalog. This is a blueprint a human implements; this tool deploys nothing.",
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Guardrail packs ingested", "value": "2 of 3", "tone": "warn" },
+      { "label": "Guardrails catalogued", "value": "11", "tone": "neutral" },
+      { "label": "Missing inputs", "value": "1 (marketing)", "tone": "danger" }
+    ]
+  },
+  "consumed_artifacts": [
+    { "tool_id": "cs-deployment-guardrails", "team": "customer-success", "path": "customer-success/cs-deployment-guardrails.json" },
+    { "tool_id": "sales-deployment-guardrails", "team": "sales", "path": "sales/sales-deployment-guardrails.json" }
+  ],
+  "findings": [
+    {
+      "id": "CP-IDENTITY",
+      "title": "Least-privilege identity model: one scoped service identity per agent, no shared credential",
+      "severity": "critical",
+      "category": "Identity & access",
+      "what_we_found": "The CS pack requests read/write on Cases and Knowledge; the Sales pack requests read/write on Opportunities and Contacts. Neither specifies a distinct service identity — both assume a broad operator credential, and their scopes overlap on Contacts inconsistently.",
+      "why_it_blocks_ai": "A shared or over-broad credential means a compromised or mis-prompted agent can act far beyond its job, and you cannot attribute an action to a specific agent. There is no least-privilege boundary for an AI to operate safely behind.",
+      "the_fix": [
+        "Define one service identity per agent (cs-agent, sales-agent), each scoped to the minimum objects/fields/actions that team's AI needs.",
+        "Separate read scopes from write scopes; grant write only where the pack justifies it.",
+        "Require human-in-the-loop confirmation for every write or send action; the agent proposes, a human commits.",
+        "Eliminate any shared 'god' credential; reconcile the overlapping Contacts scope to the narrower of the two requests."
+      ],
+      "affected": ["cs-deployment-guardrails", "sales-deployment-guardrails"],
+      "evidence": "Both packs request write access; neither defines a per-agent identity; Contacts scope differs between packs.",
+      "owner_role": "RevOps + Security / IT"
+    },
+    {
+      "id": "CP-AUDIT",
+      "title": "Unified audit-trail spec: one append-only log every agent writes to",
+      "severity": "high",
+      "category": "Auditability",
+      "what_we_found": "The CS and Sales packs describe logging differently — one logs actions, the other logs only errors — and neither captures the grounding/inputs behind an action.",
+      "why_it_blocks_ai": "Without one consistent, complete audit trail you cannot reconstruct why an agent did what it did, prove compliance, or investigate an incident across teams.",
+      "the_fix": [
+        "Adopt one append-only audit schema: acting identity, action, target record, inputs/grounding used, timestamp, and outcome.",
+        "Require every agent action (read-into-context and write) to emit a record before the action is considered complete.",
+        "Store the log immutably with a defined retention window and restrict who can read it.",
+        "Reconcile both packs' logging to this single spec."
+      ],
+      "affected": ["cs-deployment-guardrails", "sales-deployment-guardrails"],
+      "evidence": "Inconsistent logging between packs; no grounding/inputs captured in either.",
+      "owner_role": "RevOps + Security"
+    },
+    {
+      "id": "CP-GOVERNANCE",
+      "title": "Context & data governance: PII handling, retention, and privacy floor",
+      "severity": "high",
+      "category": "Data governance",
+      "what_we_found": "The CS pack touches case content that can contain customer PII; the Sales pack reads contact records. Neither specifies a redaction rule, a retention window for context data, or a privacy stance — and the Marketing pack (which would carry the consent/PII rules) is missing.",
+      "why_it_blocks_ai": "An agent that reads PII into context with no retention or redaction rule creates uncontrolled copies of sensitive data and an unclear privacy posture — a real exposure before any model even responds.",
+      "the_fix": [
+        "Define what counts as PII/sensitive across teams and redact or mask it before it enters agent context where not required.",
+        "Set a retention window for context/transient data and enforce deletion at expiry.",
+        "Adopt the strictest stance across the packs as the floor for all agents.",
+        "Re-run this blueprint once mkt-deployment-guardrails exists so marketing consent/PII rules are folded in.",
+        "Validate the retention and privacy choices with counsel before go-live."
+      ],
+      "affected": ["cs-deployment-guardrails", "sales-deployment-guardrails", "mkt-deployment-guardrails (missing)"],
+      "evidence": "PII-bearing case/contact data in scope; no redaction or retention rule in either present pack; marketing pack absent.",
+      "owner_role": "RevOps + Privacy/Legal"
+    },
+    {
+      "id": "CP-CATALOG",
+      "title": "Central guardrail catalog: one reconciled list of every guardrail any agent must honor",
+      "severity": "medium",
+      "category": "Guardrail consolidation",
+      "what_we_found": "The CS and Sales packs each list guardrails (scope limits, escalation triggers, prohibited actions); some overlap, some conflict (different thresholds for human escalation).",
+      "why_it_blocks_ai": "Three separate guardrail lists mean no single source of truth — a guardrail tightened for one team silently doesn't apply to another, and conflicts go unresolved.",
+      "the_fix": [
+        "Merge the packs' guardrails into one catalog, de-duplicating identical rules.",
+        "Resolve every conflict to the stricter rule and record the decision.",
+        "Make the catalog the single reference every agent's configuration is validated against by a human.",
+        "Flag the marketing pack's guardrails as a known gap until that pack is produced."
+      ],
+      "affected": ["cs-deployment-guardrails", "sales-deployment-guardrails"],
+      "evidence": "Overlapping guardrails with conflicting escalation thresholds between the two packs.",
+      "owner_role": "RevOps"
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your RevOps function AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": ["Guidance, not legal advice. Validate any PII, retention, and privacy decisions with your own counsel before implementation."]
+}

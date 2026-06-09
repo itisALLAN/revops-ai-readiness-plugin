@@ -1,0 +1,21 @@
+Call: Northwind — Discovery (OPP-2001)
+Date: 2026-01-06
+Participants: A. Cole (SaaScend rep), Jordan Pike (VP RevOps, Northwind), Sam Ortiz (Sales Ops Manager, Northwind)
+
+A. Cole: Thanks for making time. To start — what's pushing you to look at this now?
+Jordan Pike: Honestly our board asked for an AI plan and we realized our reporting is a mess. We can't trust the pipeline numbers, so we can't even think about automation on top of it.
+A. Cole: Got it. When you say can't trust — what breaks?
+Sam Ortiz: Reps don't log next steps. Half our open deals have close dates from last quarter. Forecast is basically a guess.
+Jordan Pike: And marketing and sales argue about what "qualified" even means every single week.
+A. Cole: That's common. Who owns fixing the definitions today?
+Jordan Pike: Nobody, really. That's part of why I'm here.
+A. Cole: Understood. On budget — is there a number attached to this initiative?
+Jordan Pike: We've earmarked around 40K for the platform piece this year, could grow if the cleanup proves out.
+Sam Ortiz: Timeline matters — the board review is end of Q1, so we'd want something demonstrable before March 15.
+A. Cole: Helpful. Decision process — who signs off?
+Jordan Pike: I recommend, but our COO Dana Liu signs anything over 25K.
+A. Cole: Great. Any competing options you're weighing?
+Sam Ortiz: We looked at Acme but their data hygiene tooling felt thin.
+A. Cole: Makes sense. I'd suggest a technical demo next, focused on the reporting and definition-governance piece. Can we target next week?
+Jordan Pike: Works. Send times. And can you include how you'd handle the MQL definition conflict — that's the thing that'll win the room.
+A. Cole: Will do. I'll follow up with a recap and proposed demo slots today.

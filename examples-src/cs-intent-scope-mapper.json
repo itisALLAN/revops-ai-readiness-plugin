@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "tool": { "id": "cs-intent-scope-mapper", "name": "Intent & Scope Mapper", "team": "customer-success", "kind": "readiness" },
+  "generated_at": "2026-06-08",
+  "inputs": [
+    { "type": "file", "ref": "fixtures/customer-success/cases.csv", "description": "Closed + open case export", "records": 26 },
+    { "type": "file", "ref": "fixtures/customer-success/kb-articles.md", "description": "KB corpus (6 articles)", "records": 6 }
+  ],
+  "summary": {
+    "headline": "Scope your AI to password resets and teammate invites only — ~38% of common intents have no KB article, and three sensitive intents must be hard-gated.",
+    "narrative": "We mined eight recurring intents from 26 cases. Two (password reset, invite teammates) are cleanly covered and safe to scope in today. About 38% of common intents — API rate limits, API key rotation, webhook troubleshooting — have no KB article at all, so an AI would have to invent answers. Billing disputes, account security, and legal/regulated (GDPR) intents appear repeatedly and must go on an out-of-scope safety list before any AI step.",
+    "ai_ready": false,
+    "blocking_count": 2,
+    "stats": [
+      { "label": "Intents mined", "value": "8", "tone": "neutral" },
+      { "label": "Common intents with no KB article", "value": "~38%", "tone": "danger" },
+      { "label": "Out-of-scope intents", "value": "3", "tone": "warn" }
+    ]
+  },
+  "findings": [
+    {
+      "id": "INT-GAP-001",
+      "title": "High-volume developer intents have zero KB coverage",
+      "severity": "high",
+      "category": "Coverage gap",
+      "what_we_found": "API rate limits (CS-1007), API key rotation (CS-1020), and webhook troubleshooting (CS-1008) recur across cases, but no KB article exists for any of them — case notes confirm ‘no KB article exists on limits’ and ‘no article; awaiting eng’.",
+      "why_it_blocks_ai": "With no grounding source, an AI agent would fabricate limits, rotation steps, or fixes — exactly the developer-facing answers that must be precise.",
+      "the_fix": [
+        "Author single-topic articles: API Rate Limits, API Key Rotation, Webhook Troubleshooting.",
+        "Keep these intents out of AI scope until the articles are published and reviewed by engineering.",
+        "Re-run this mapper after publishing to confirm coverage."
+      ],
+      "affected": ["intent:api-rate-limits", "intent:api-key-rotation", "intent:webhook-troubleshooting"],
+      "evidence": "~38% of mined common intents have no matching KB article.",
+      "owner_role": "Knowledge Base owner + Engineering"
+    },
+    {
+      "id": "INT-PARTIAL-002",
+      "title": "SSO and Salesforce-connect intents have only stale coverage",
+      "severity": "medium",
+      "category": "Partial / stale-only coverage",
+      "what_we_found": "SSO setup (CS-1012, CS-1016) maps only to the 2023 SSO Setup article (which also has a dangling reference); connect-Salesforce (CS-1025) maps only to the 2023 integration guide citing an outdated package version.",
+      "why_it_blocks_ai": "The only matching articles are stale, so the AI would ground on facts that are no longer true. Technically covered, not safely groundable.",
+      "the_fix": [
+        "Refresh both articles (hand to KB Retrieval Readiness) before scoping these intents in.",
+        "Do not place SSO or Salesforce-connect in AI scope until coverage is current."
+      ],
+      "affected": ["https://kb.example.com/sso-setup", "https://kb.example.com/salesforce-integration"],
+      "evidence": "Both matching articles last_updated 2023; one asserts package v1.2.",
+      "owner_role": "Knowledge Base owner"
+    },
+    {
+      "id": "INT-SENS-003",
+      "title": "Sensitive intents are recurring and currently unguarded",
+      "severity": "critical",
+      "category": "Sensitive-intent classification",
+      "what_we_found": "Billing disputes (CS-1003, CS-1006, CS-1019, CS-1024), account-security questions (security questionnaire CS-1021), and legal/regulated GDPR / data-residency requests (CS-1011) appear repeatedly and are handled ad hoc with no KB and no AI guardrail.",
+      "why_it_blocks_ai": "If an AI self-serves these, it risks giving financial, security, or legal answers it must never give. They require a hard human gate, not model judgement.",
+      "the_fix": [
+        "Add all three classes to the out-of-scope safety list (see draft).",
+        "Route each to a named human queue: billing disputes → Billing, security → Security/IT, GDPR/legal → Legal.",
+        "Have the CS lead and Legal ratify the list before any AI step."
+      ],
+      "affected": ["intent:billing-dispute", "intent:account-security", "intent:legal-gdpr"],
+      "evidence": "4 billing-dispute cases, 1 security-questionnaire case, 1 GDPR case in the export.",
+      "owner_role": "CS Lead + Legal"
+    }
+  ],
+  "drafts": [
+    {
+      "kind": "out-of-scope-safety-list",
+      "title": "Draft AI out-of-scope safety list (for human ratification)",
+      "content": "Intents the AI must NOT self-serve — acknowledge and route to a human:\n\n| Intent | Why out of scope | Route to |\n|---|---|---|\n| Billing disputes / refunds / overage / cancellation charges | Financial decisions and contract terms; risk of incorrect refund or commitment | Billing team |\n| Account security (security questionnaires, suspected compromise, access changes) | Security-sensitive; must verify identity and follow policy | Security / IT |\n| Legal / regulated (GDPR, data residency, tax exemption, contract disputes) | Regulated answers; guidance not legal advice | Legal |\n\nFor each, the AI should acknowledge, set expectations, and hand off — never attempt a resolving answer.",
+      "grounded_on": ["fixtures/customer-success/cases.csv (categories: Billing dispute, Compliance, Account access)"],
+      "flags": [
+        "DRAFT for human ratification — the CS lead and Legal must approve before this becomes policy.",
+        "This is a starting guardrail, not an exhaustive list; review as new intent types emerge."
+      ]
+    }
+  ],
+  "cta": { "line": "If you'd like help getting your Customer Success team AI-ready, reach out to SaaScend.", "url": "https://www.saascend.com" },
+  "disclaimers": []
+}
