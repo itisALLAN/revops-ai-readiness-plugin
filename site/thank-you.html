@@ -27,8 +27,9 @@
         <div class="confirm-badge"><span class="check"></span> You're on the list</div>
         <h1>You're in. Let's get you <span class="accent">installed.</span></h1>
         <p class="hero__sub">
-          Check your inbox for the getting-started guide — meanwhile, you can install the suite in
-          Claude Code right now. It takes about thirty seconds.
+          Check your inbox for the getting-started guide — meanwhile, you can install the suite
+          right now, whether you use Claude in your browser, the desktop app, or Claude Code.
+          It takes about a minute.
         </p>
       </div>
     </div>
@@ -37,26 +38,59 @@
   <!-- ============================ INSTALL STEPS ============================ -->
   <section class="section">
     <div class="wrap narrow">
-      <div class="eyebrow">Install in Claude Code</div>
-      <h2>Two commands</h2>
-      <p class="muted" style="margin-top:8px">Run these inside Claude Code — copy each line and paste it in. The first adds SaaScend's plugin marketplace; the second installs the suite.</p>
+      <div class="eyebrow">Install the suite</div>
+      <h2>Pick how you use Claude</h2>
+      <p class="muted" style="margin-top:8px">Claude comes in a few forms. Choose yours below and follow the steps — no coding required. It takes about a minute either way.</p>
 
-      <div class="copy-label">Step 1 — add the SaaScend marketplace</div>
-      <div class="copy">
-        <span class="copy__cmd"><span class="cmd">/plugin marketplace add itisALLAN/revops-ai-readiness-plugin</span></span>
-        <button class="copy__btn" type="button" data-copy="/plugin marketplace add itisALLAN/revops-ai-readiness-plugin">Copy</button>
+      <div class="tabs" role="tablist" aria-label="Choose your version of Claude">
+        <button class="tab-btn is-active" type="button" role="tab" data-tab="point">Claude Desktop or Browser</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="cli">Claude Code (command line)</button>
       </div>
 
-      <div class="copy-label">Step 2 — install the suite</div>
-      <div class="copy">
-        <span class="copy__cmd"><span class="cmd">/plugin install revops-ai-readiness-suite@saascend</span></span>
-        <button class="copy__btn" type="button" data-copy="/plugin install revops-ai-readiness-suite@saascend">Copy</button>
+      <!-- Point-and-click: Claude Desktop app + claude.ai in the browser -->
+      <div class="tab-panel is-active" data-panel="point" role="tabpanel">
+        <p class="muted" style="margin-top:0">The Claude <b>desktop app</b> and Claude in your <b>web browser</b> (claude.ai) use the exact same steps — everything here is point-and-click.</p>
+        <ol class="steps-list">
+          <li><b>Open Claude.</b> Launch the Claude desktop app, or go to <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> in your browser and sign in.</li>
+          <li><b>Open the plugins area.</b> In the left sidebar, click <b>Customize</b>, then open the <b>Plugins</b> tab.</li>
+          <li><b>Add SaaScend's marketplace.</b> Under <b>Personal plugins</b>, click the <b>+</b> button, choose <b>Add marketplace</b>, then <b>Add from a repository</b>. Paste the address below and click <b>Add</b>.
+            <div class="copy">
+              <span class="copy__cmd"><span class="cmd">itisALLAN/revops-ai-readiness-plugin</span></span>
+              <button class="copy__btn" type="button" data-copy="itisALLAN/revops-ai-readiness-plugin">Copy</button>
+            </div>
+          </li>
+          <li><b>Install the suite.</b> Back on the <b>Plugins</b> tab, click <b>Browse plugins</b>, find <b>RevOps AI Readiness Suite</b>, and click <b>Install</b>.</li>
+          <li><b>You're ready.</b> The <code>/readiness</code>, <code>/activate</code>, and <code>/roadmap</code> commands plus 25 skills now appear when you type <code>/</code> in a chat. Head to <a href="#begin">your first ten minutes</a> below.</li>
+        </ol>
       </div>
 
-      <p style="margin-top:24px">Prefer a menu? Run <code>/plugin</code>, open the <b>Discover</b> tab, and install
-        <b>RevOps AI Readiness Suite</b> from there. Either way, the 25 skills and the
-        <code>/readiness</code>, <code>/activate</code>, and <code>/roadmap</code> commands
-        become available immediately.</p>
+      <!-- Command line: Claude Code in terminal / IDE / app -->
+      <div class="tab-panel" data-panel="cli" role="tabpanel">
+        <p class="muted" style="margin-top:0">Using <b>Claude Code</b> in your terminal, IDE, or the Claude Code app? Copy each command and paste it into the prompt, one at a time.</p>
+        <ol class="steps-list">
+          <li><b>Add the SaaScend marketplace.</b> Claude Code will ask you to confirm you trust the source — choose <b>yes</b>.
+            <div class="copy">
+              <span class="copy__cmd"><span class="cmd">/plugin marketplace add itisALLAN/revops-ai-readiness-plugin</span></span>
+              <button class="copy__btn" type="button" data-copy="/plugin marketplace add itisALLAN/revops-ai-readiness-plugin">Copy</button>
+            </div>
+          </li>
+          <li><b>Install the suite.</b>
+            <div class="copy">
+              <span class="copy__cmd"><span class="cmd">/plugin install revops-ai-readiness-suite@saascend</span></span>
+              <button class="copy__btn" type="button" data-copy="/plugin install revops-ai-readiness-suite@saascend">Copy</button>
+            </div>
+          </li>
+          <li><b>Switch it on.</b> Run <code>/reload-plugins</code> (or just restart Claude Code) to activate the suite.
+            <div class="copy">
+              <span class="copy__cmd"><span class="cmd">/reload-plugins</span></span>
+              <button class="copy__btn" type="button" data-copy="/reload-plugins">Copy</button>
+            </div>
+          </li>
+          <li><b>You're ready.</b> Type <code>/readiness</code> to begin — or jump to <a href="#begin">your first ten minutes</a> below.</li>
+        </ol>
+        <p class="muted" style="margin-top:6px">Prefer a menu? Run <code>/plugin</code>, open the <b>Discover</b> tab, select <b>RevOps AI Readiness Suite</b>, and install it there.</p>
+        <p class="muted" style="margin-top:10px"><b>Don't see the <code>/plugin</code> command?</b> Update Claude Code with <code>npm install -g @anthropic-ai/claude-code@latest</code> (or <code>brew upgrade claude-code</code>), restart it, and try again.</p>
+      </div>
 
       <h3 style="margin-top:36px">Or just ask Claude</h3>
       <p class="muted" style="margin-top:8px">Prefer to be guided? Once the suite is installed, paste this prompt into Claude Code and it'll take you from zero to your first deliverable.</p>
@@ -75,7 +109,7 @@
   </section>
 
   <!-- ============================ WHERE TO BEGIN ============================ -->
-  <section class="section section--ice">
+  <section class="section section--ice" id="begin">
     <div class="wrap narrow">
       <div class="eyebrow">Where to begin</div>
       <h2>Your first ten minutes</h2>
@@ -134,6 +168,21 @@
       <p>© SaaScend · <a href="https://www.saascend.com">saascend.com</a> · <a href="index.html">Back to home</a></p>
     </div>
   </footer>
+
+  <script>
+    // Install chooser tabs — toggle the active tab button and its matching panel.
+    document.addEventListener('click', function (e) {
+      var tab = e.target.closest('[data-tab]');
+      if (!tab) return;
+      var key = tab.getAttribute('data-tab');
+      document.querySelectorAll('.tab-btn').forEach(function (b) {
+        b.classList.toggle('is-active', b.getAttribute('data-tab') === key);
+      });
+      document.querySelectorAll('.tab-panel').forEach(function (p) {
+        p.classList.toggle('is-active', p.getAttribute('data-panel') === key);
+      });
+    });
+  </script>
 
   <script>
     // Click-to-copy for any element carrying data-copy (install lines, the

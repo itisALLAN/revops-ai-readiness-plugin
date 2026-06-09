@@ -228,7 +228,41 @@ a:hover { color: var(--brand-cyan); }
 }
 .cmd-chip.copied .cmd-chip__hint { background: rgba(30,122,75,0.16); color: #1E7A4B; }
 
+/* ---- Install chooser: tabs + numbered steps (thank-you) ----------------- */
+.tabs {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 28px 0 26px;
+  border-bottom: 2px solid var(--ink-200);
+}
+.tab-btn {
+  font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; cursor: pointer;
+  background: transparent; border: 0; color: var(--fg-muted);
+  padding: 12px 20px; border-bottom: 3px solid transparent; margin-bottom: -2px;
+  transition: color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+}
+.tab-btn:hover { color: var(--brand-blue); }
+.tab-btn.is-active { color: var(--brand-navy); border-bottom-color: var(--brand-cyan); }
+
+.tab-panel { display: none; }
+.tab-panel.is-active { display: block; animation: fade-in 200ms var(--ease-out); }
+@keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* numbered vertical stepper */
+.steps-list { counter-reset: step; list-style: none; padding: 0; margin: 8px 0 0; }
+.steps-list > li { position: relative; padding: 2px 0 22px 50px; margin: 0; }
+.steps-list > li::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--brand-navy); color: #fff; font-family: var(--font-display);
+  font-weight: 800; font-size: 0.95rem; display: grid; place-items: center;
+}
+.steps-list > li:not(:last-child)::after {
+  content: ""; position: absolute; left: 15px; top: 38px; bottom: 2px; width: 2px; background: var(--ink-200);
+}
+.steps-list > li b { font-family: var(--font-display); color: var(--fg-strong); }
+.steps-list .copy { margin-top: 12px; }
+
 @media (max-width: 620px) {
+  .tab-btn { padding: 10px 12px; font-size: 0.88rem; }
   .nav__links { display: none; }
   .cta { padding: 36px 24px; }
   .section { padding: 60px 0; }
