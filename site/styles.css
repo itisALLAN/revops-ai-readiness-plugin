@@ -186,6 +186,48 @@ a:hover { color: var(--brand-cyan); }
 .footer a { color: var(--fg-on-dark-muted); }
 .footer a:hover { color: var(--brand-cyan); }
 
+/* ---- Click-to-copy ------------------------------------------------------ */
+.copy-label { font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); margin: 18px 0 8px; }
+.copy {
+  display: flex; align-items: center; gap: 12px; justify-content: space-between;
+  background: var(--ink-900); border-radius: var(--radius-lg);
+  padding: 12px 12px 12px 20px; margin: 0;
+}
+.copy__cmd { color: #E8F4FB; overflow-x: auto; white-space: pre; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.95rem; }
+.copy__cmd .cmd { color: #7FE3FF; }
+.copy__btn {
+  flex: none; font-family: var(--font-display); font-weight: 600; font-size: 0.72rem;
+  letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer;
+  background: var(--brand-cyan); color: #031F49; border: 0; border-radius: var(--radius-pill);
+  padding: 9px 16px; transition: background 140ms var(--ease-out), color 140ms;
+}
+.copy__btn:hover { background: #fff; }
+.copy__btn.copied { background: #2EA66A; color: #fff; }
+
+/* multi-line copyable prompt */
+.copy-block {
+  position: relative; background: var(--ink-900); color: #E8F4FB; border-radius: var(--radius-lg);
+  padding: 20px 116px 20px 20px; margin: 0;
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.6;
+}
+.copy-block .copy__btn { position: absolute; top: 14px; right: 14px; }
+
+/* inline /command chip — click to copy */
+.cmd-chip {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 16px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9rem; font-weight: 600;
+  background: var(--brand-cyan-100); color: var(--brand-blue-600);
+  padding: 8px 8px 8px 14px; border-radius: var(--radius-pill); border: 1px solid transparent;
+  transition: border-color 140ms var(--ease-out), background 140ms;
+}
+.cmd-chip:hover { border-color: var(--brand-cyan); }
+.cmd-chip.copied { background: #DDF3E8; color: #1E7A4B; }
+.cmd-chip__hint {
+  font-family: var(--font-display); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+  background: rgba(16,113,195,0.12); color: var(--brand-blue-600); padding: 4px 9px; border-radius: var(--radius-pill);
+}
+.cmd-chip.copied .cmd-chip__hint { background: rgba(30,122,75,0.16); color: #1E7A4B; }
+
 @media (max-width: 620px) {
   .nav__links { display: none; }
   .cta { padding: 36px 24px; }

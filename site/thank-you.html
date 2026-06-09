@@ -39,20 +39,31 @@
     <div class="wrap narrow">
       <div class="eyebrow">Install in Claude Code</div>
       <h2>Two commands</h2>
-      <p class="muted" style="margin-top:8px">Run these inside Claude Code. The first adds SaaScend's plugin marketplace; the second installs the suite.</p>
+      <p class="muted" style="margin-top:8px">Run these inside Claude Code — copy each line and paste it in. The first adds SaaScend's plugin marketplace; the second installs the suite.</p>
 
-      <div class="code" style="margin:24px 0">
-<span class="cmt"># 1 — add the SaaScend marketplace</span>
-<span class="cmd">/plugin marketplace add itisALLAN/revops-ai-readiness-plugin</span>
-
-<span class="cmt"># 2 — install the suite</span>
-<span class="cmd">/plugin install revops-ai-readiness-suite@saascend</span>
+      <div class="copy-label">Step 1 — add the SaaScend marketplace</div>
+      <div class="copy">
+        <span class="copy__cmd"><span class="cmd">/plugin marketplace add itisALLAN/revops-ai-readiness-plugin</span></span>
+        <button class="copy__btn" type="button" data-copy="/plugin marketplace add itisALLAN/revops-ai-readiness-plugin">Copy</button>
       </div>
 
-      <p>Prefer a menu? Run <code>/plugin</code>, open the <b>Discover</b> tab, and install
+      <div class="copy-label">Step 2 — install the suite</div>
+      <div class="copy">
+        <span class="copy__cmd"><span class="cmd">/plugin install revops-ai-readiness-suite@saascend</span></span>
+        <button class="copy__btn" type="button" data-copy="/plugin install revops-ai-readiness-suite@saascend">Copy</button>
+      </div>
+
+      <p style="margin-top:24px">Prefer a menu? Run <code>/plugin</code>, open the <b>Discover</b> tab, and install
         <b>RevOps AI Readiness Suite</b> from there. Either way, the 25 skills and the
         <code>/readiness</code>, <code>/activate</code>, and <code>/roadmap</code> commands
         become available immediately.</p>
+
+      <h3 style="margin-top:36px">Or just ask Claude</h3>
+      <p class="muted" style="margin-top:8px">Prefer to be guided? Once the suite is installed, paste this prompt into Claude Code and it'll take you from zero to your first deliverable.</p>
+      <div class="copy-block">
+        <span>I've installed the SaaScend RevOps AI Readiness Suite. Help me take my first safe step toward AI: ask me which GTM team to focus on (Customer Success, Sales, Marketing, or RevOps), tell me what data or public URLs I can share, then run the right readiness tool and walk me through the findings.</span>
+        <button class="copy__btn" type="button" data-copy="I've installed the SaaScend RevOps AI Readiness Suite. Help me take my first safe step toward AI: ask me which GTM team to focus on (Customer Success, Sales, Marketing, or RevOps), tell me what data or public URLs I can share, then run the right readiness tool and walk me through the findings.">Copy</button>
+      </div>
 
       <h3 style="margin-top:36px">Before you start — two requirements</h3>
       <ul class="pill-list">
@@ -74,17 +85,20 @@
         <div class="card">
           <div class="eyebrow">Fastest win</div>
           <h3>Codify your brand</h3>
-          <p>Run <code>/activate brand-codex</code> with a few blog URLs. You'll get a reusable brand codex other tools build on — a quick, satisfying first artifact.</p>
+          <p>Feed it a few blog URLs and get a reusable brand codex other tools build on — a quick, satisfying first artifact.</p>
+          <button class="cmd-chip" type="button" data-copy="/activate brand-codex">/activate brand-codex<span class="cmd-chip__hint">click to copy</span></button>
         </div>
         <div class="card">
           <div class="eyebrow">By team</div>
           <h3>Run a readiness pass</h3>
-          <p>Run <code>/readiness</code> and pick a team. Upload the matching export (cases, opportunities, or leads) and get an actionable fix list.</p>
+          <p>Pick a team and upload the matching export (cases, opportunities, or leads) to get an actionable fix list.</p>
+          <button class="cmd-chip" type="button" data-copy="/readiness">/readiness<span class="cmd-chip__hint">click to copy</span></button>
         </div>
         <div class="card">
           <div class="eyebrow">The big picture</div>
           <h3>Synthesize a roadmap</h3>
-          <p>After a few team tools have run, <code>/roadmap</code> traces every symptom back to its root RevOps cause and ranks what to fix first.</p>
+          <p>After a few team tools have run, this traces every symptom back to its root RevOps cause and ranks what to fix first.</p>
+          <button class="cmd-chip" type="button" data-copy="/roadmap">/roadmap<span class="cmd-chip__hint">click to copy</span></button>
         </div>
       </div>
 
@@ -92,7 +106,8 @@
         <div class="step__num">★</div>
         <div>
           <h3>Recommended starting move</h3>
-          <p style="margin:0">Run a readiness tool for the team feeling the most AI pressure today (often Customer Success or Sales), act on the top blocking finding, then come back and run <code>/roadmap</code> to see how that fix fits the whole org. Every output tells you exactly what to change — and you own each action.</p>
+          <p style="margin:0 0 4px">Run a readiness tool for the team feeling the most AI pressure today (often Customer Success or Sales), act on the top blocking finding, then come back and run <code>/roadmap</code> to see how that fix fits the whole org. Every output tells you exactly what to change — and you own each action.</p>
+          <button class="cmd-chip" type="button" data-copy="/readiness customer-success">/readiness customer-success<span class="cmd-chip__hint">click to copy</span></button>
         </div>
       </div>
     </div>
@@ -120,5 +135,46 @@
     </div>
   </footer>
 
+  <script>
+    // Click-to-copy for any element carrying data-copy (install lines, the
+    // starter prompt, and the /command chips). Writes to the clipboard and
+    // shows brief "copied" feedback on the button/chip.
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('[data-copy]');
+      if (!trigger) return;
+      var text = trigger.getAttribute('data-copy');
+
+      function feedback() {
+        var hint = trigger.querySelector('.cmd-chip__hint');
+        trigger.classList.add('copied');
+        var original = hint ? hint.textContent : trigger.textContent;
+        if (hint) { hint.textContent = 'copied!'; }
+        else { trigger.textContent = 'Copied!'; }
+        setTimeout(function () {
+          trigger.classList.remove('copied');
+          if (hint) { hint.textContent = original; }
+          else { trigger.textContent = original; }
+        }, 1600);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(feedback, fallback);
+      } else {
+        fallback();
+      }
+
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (_) {}
+        document.body.removeChild(ta);
+        feedback();
+      }
+    });
+  </script>
 </body>
 </html>
